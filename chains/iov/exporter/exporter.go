@@ -7,6 +7,7 @@ import (
 
 	rpc "github.com/node-a-team/Cosmos-IE/chains/iov/getData/rpc"
 	metric "github.com/node-a-team/Cosmos-IE/chains/iov/exporter/metric"
+	utils "github.com/node-a-team/Cosmos-IE/utils"
 
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -25,13 +26,13 @@ func Start(log *zap.Logger) {
 
 	// nomal guages
 	for i := 0; i < len(gaugesNamespaceList); i++ {
-                gauges[i] = metric.NewGauge("exporter", gaugesNamespaceList[i], "")
+                gauges[i] = utils.NewGauge("exporter", gaugesNamespaceList[i], "")
                 prometheus.MustRegister(gauges[i])
         }
 
 	// labels
 	labels := []string{"chainId"}
-	gaugesForLabel := metric.NewCounterVec("exporter", "labels", "", labels)
+	gaugesForLabel := utils.NewCounterVec("exporter", "labels", "", labels)
 
 	prometheus.MustRegister(gaugesForLabel)
 
@@ -53,6 +54,7 @@ func Start(log *zap.Logger) {
 
 			if previousBlockHeight != currentBlockHeight {
 
+				fmt.Println("")
 				log.Info("RPC-Server", zap.Bool("Success", true), zap.String("err", "nil"), zap.String("Get Data", "Block Height: " +fmt.Sprint(currentBlockHeight)))
 
 

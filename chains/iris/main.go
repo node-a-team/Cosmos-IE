@@ -7,8 +7,8 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/node-a-team/cosmos_metric/chains/iris/exporter"
-	rpc "github.com/node-a-team/cosmos_metric/chains/iris/getData/rpc"
+	"github.com/node-a-team/Cosmos-IE/chains/iris/exporter"
+	rpc "github.com/node-a-team/Cosmos-IE/chains/iris/getData/rpc"
 )
 
 func Main(port string) {
@@ -16,9 +16,6 @@ func Main(port string) {
 	log, _ := zap.NewDevelopment()
 	defer log.Sync()
 
-//	cfg.ConfigPath = os.Args[1]
-
-//	port := cfg.Init()
 	rpc.OpenSocket(log)
 
 	http.Handle("/metrics", promhttp.Handler())

@@ -3,9 +3,9 @@ package metric
 import (
 	"go.uber.org/zap"
 
-	rest "github.com/node-a-team/cosmos_metric/chains/iris/getData/rest"
-	rpc "github.com/node-a-team/cosmos_metric/chains/iris/getData/rpc"
-	utils "github.com/node-a-team/cosmos_metric/utils"
+	rest "github.com/node-a-team/Cosmos-IE/chains/iris/getData/rest"
+	rpc "github.com/node-a-team/Cosmos-IE/chains/iris/getData/rpc"
+	utils "github.com/node-a-team/Cosmos-IE/utils"
 )
 
 var (

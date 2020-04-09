@@ -31,8 +31,9 @@ var (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "Cosmos-IE",
-	Short: "root short ",
-	Long: `root 설명충`,
+	Short: "",
+	Long: `Integrated Exporter for CosmosSDK`,
+
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },

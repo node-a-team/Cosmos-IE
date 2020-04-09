@@ -16,9 +16,6 @@ func Main(port string) {
 	log,_ := zap.NewDevelopment()
         defer log.Sync()
 
-//	cfg.ConfigPath = os.Args[1]
-
-//	port := cfg.Init()
 	rpc.OpenSocket(log)
 
 	http.Handle("/metrics", promhttp.Handler())

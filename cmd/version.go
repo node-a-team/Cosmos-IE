@@ -22,17 +22,18 @@ import (
 )
 
 var (
-	version string = "1.0.0"
+	version, tendermintVersion, cosmosSDKVersion string = "v1.0.0", "v0.32.9", "v0.37.6"
 
-// versionCmd represents the version command
-var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "Software version",
-	Long: ``,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Cosmos-IE v" +version)
-	},
-}
+	// versionCmd represents the version command
+	versionCmd = &cobra.Command{
+		Use:   "version",
+		Short: "Software version",
+		Long: ``,
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Printf("Cosmos-IE %s(Tendermint: %s, CosmosSDK: %s)\n", version, tendermintVersion, cosmosSDKVersion)
+		},
+	}
+)
 
 func init() {
 	rootCmd.AddCommand(versionCmd)

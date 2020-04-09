@@ -43,9 +43,7 @@ func GetData(blockHeight int64, consHexAddr string, log *zap.Logger) *RPCData {
                 log.Info("RPC-Server", zap.Bool("Success", true), zap.String("err", "nil"), zap.String("Get Data", "Commit Data"),)
         }
 
-	fmt.Println("consHexAddr: ", consHexAddr)
 	rd.Commit = getCommit(commitData, consHexAddr)
-
 
         return rd
 }

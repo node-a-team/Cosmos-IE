@@ -5,7 +5,7 @@ import (
 	"go.uber.org/zap"
 	"strings"
 
-	utils "github.com/node-a-team/cosmos_metric/utils"
+	utils "github.com/node-a-team/Cosmos-IE/utils"
 )
 
 /*

@@ -1,15 +1,11 @@
 package metric
 
 import (
-
-//	"fmt"
-//	"encoding/hex"
-//	sdk "github.com/cosmos/cosmos-sdk/types"
 	"go.uber.org/zap"
 
-	rest "github.com/node-a-team/cosmos_metric/chains/kava/getData/rest"
-	rpc "github.com/node-a-team/cosmos_metric/chains/kava/getData/rpc"
-	utils "github.com/node-a-team/cosmos_metric/utils"
+	rest "github.com/node-a-team/Cosmos-IE/chains/kava/getData/rest"
+	rpc "github.com/node-a-team/Cosmos-IE/chains/kava/getData/rpc"
+	utils "github.com/node-a-team/Cosmos-IE/utils"
 )
 
 var (

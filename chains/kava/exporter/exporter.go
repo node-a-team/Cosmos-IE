@@ -5,10 +5,10 @@ import (
 	"time"
 	"go.uber.org/zap"
 
-	rpc "github.com/node-a-team/cosmos_metric/chains/kava/getData/rpc"
-	rest "github.com/node-a-team/cosmos_metric/chains/kava/getData/rest"
-	metric "github.com/node-a-team/cosmos_metric/chains/kava/exporter/metric"
-	utils "github.com/node-a-team/cosmos_metric/utils"
+	rpc "github.com/node-a-team/Cosmos-IE/chains/kava/getData/rpc"
+	rest "github.com/node-a-team/Cosmos-IE/chains/kava/getData/rest"
+	metric "github.com/node-a-team/Cosmos-IE/chains/kava/exporter/metric"
+	utils "github.com/node-a-team/Cosmos-IE/utils"
 
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -28,7 +28,7 @@ func Start(log *zap.Logger) {
 
 	// nomal guages
 	for i := 0; i < len(gaugesNamespaceList); i++ {
-                gauges[i] = metric.NewGauge("exporter", gaugesNamespaceList[i], "")
+                gauges[i] = utils.NewGauge("exporter", gaugesNamespaceList[i], "")
                 prometheus.MustRegister(gauges[i])
         }
 
@@ -36,9 +36,9 @@ func Start(log *zap.Logger) {
 	// denom gagues
 	count := 0
 	for i := 0; i < len(metric.DenomList)*3; i += 3 {
-		gaugesDenom[i] = metric.NewGauge("exporter_balances", metric.DenomList[count], "")
-		gaugesDenom[i+1] = metric.NewGauge("exporter_commission", metric.DenomList[count], "")
-		gaugesDenom[i+2] = metric.NewGauge("exporter_rewards", metric.DenomList[count], "")
+		gaugesDenom[i] = utils.NewGauge("exporter_balances", metric.DenomList[count], "")
+		gaugesDenom[i+1] = utils.NewGauge("exporter_commission", metric.DenomList[count], "")
+		gaugesDenom[i+2] = utils.NewGauge("exporter_rewards", metric.DenomList[count], "")
 		prometheus.MustRegister(gaugesDenom[i])
 		prometheus.MustRegister(gaugesDenom[i+1])
 		prometheus.MustRegister(gaugesDenom[i+2])
@@ -49,7 +49,7 @@ func Start(log *zap.Logger) {
 
 	// labels
 	labels := []string{"chainId", "moniker", "operatorAddress", "accountAddress", "consHexAddress"}
-	gaugesForLabel := metric.NewCounterVec("exporter", "labels", "", labels)
+	gaugesForLabel := utils.NewCounterVec("exporter", "labels", "", labels)
 
 	prometheus.MustRegister(gaugesForLabel)
 
@@ -71,6 +71,7 @@ func Start(log *zap.Logger) {
 
 			if previousBlockHeight != currentBlockHeight {
 
+				fmt.Println("")
 				log.Info("RPC-Server", zap.Bool("Success", true), zap.String("err", "nil"), zap.String("Get Data", "Block Height: " +fmt.Sprint(currentBlockHeight)))
 
 

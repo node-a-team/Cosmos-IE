@@ -72,10 +72,6 @@ func check_chain() {
 	}
 
 
-
-	fmt.Println("============================================")
-	fmt.Println(chain, operAddr, consHexAddr)
-
 	if (operAddr == "" && consHexAddr == "") || (operAddr != "" && consHexAddr != "") {
 		log.Fatal("[Error] Enter only one of --oper-addr or --cons-addr")
 	} else if chain == "iov" && consHexAddr == "" {

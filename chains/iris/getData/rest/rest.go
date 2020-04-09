@@ -4,7 +4,7 @@ import (
 	"go.uber.org/zap"
 	"os/exec"
 
-	utils "github.com/node-a-team/cosmos_metric/utils"
+	utils "github.com/node-a-team/Cosmos-IE/utils"
 )
 
 var (
