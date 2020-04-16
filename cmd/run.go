@@ -33,7 +33,10 @@ var (
 var runCmd = &cobra.Command{
         Use:   "run",
         Short: "Validator Operator Address",
-        Long: `Be sure to enter either Validator Operator Address or Consensus Hex Address`,
+        Long: `Be sure to enter either Validator Operator Address or Consensus Hex Address
+ex#1_Local RPC/REST Server) Cosmos-IE run --chain cosmos --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys
+ex#2_Remote RPC/REST Server) Cosmos-IE run --chain cosmos --rpc-server tcp://192.168.0.10:26657 --rest-server tcp://192.168.0.10:1317 --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys
+`,
         Run: func(cmd *cobra.Command, args []string) {
 		check_chain()
 		set_config()

@@ -50,7 +50,7 @@ func GetData(blockHeight int64, consHexAddr string, log *zap.Logger) *RPCData {
 
 func OpenSocket(log *zap.Logger) {
 
-        Client = tmclient.NewHTTP("tcp://"+Addr, "/websocket")
+        Client = tmclient.NewHTTP(Addr, "/websocket")
 
         err := Client.Start()
 
