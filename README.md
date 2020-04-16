@@ -12,7 +12,7 @@ Cosmos, Terra, IRISnet, Kava, IOV, E-money
 
 ## Install
 ```bash
-mkdir exporter && cd exporter
+mkdir Cosmos-IE && cd Cosmos-IE
 
 wget https://github.com/node-a-team/Cosmos-IE/releases/download/v1.0.0/Cosmos-IE.tar.gz  && sha256sum Cosmos-IE.tar.gz | fgrep 853d78162d2332e9de890dfbcec482465f10ca308ce7f6cc73bbd05cd961bed0 && tar -xvf Cosmos-IE.tar.gz || echo "Bad Binary!"
 ```
