@@ -34,6 +34,8 @@ var (
 				"commissionMaxChangeRate",
 				"commitVoteType",
 				"precommitStatus",
+				"inflation",
+                                "actualInflation",
 //				"oracleMiss",
 				}
 )
@@ -51,6 +53,11 @@ type metric struct {
 			TotalSupply	float64
 			BondedRatio	float64
 		}
+
+		Minting struct {
+                        Inflation       float64
+                        ActualInflation float64
+                }
 
 		Gov struct{
                         TotalProposalCount      float64
@@ -123,6 +130,10 @@ func SetMetric(currentBlock int64, restData *rest.RESTData, rpcData *rpc.RPCData
 	metricData.Network.Staking.BondedTokens = utils.StringToFloat64(restData.StakingPool.Result.Bonded_tokens)
 	metricData.Network.Staking.TotalSupply = restData.StakingPool.Result.Total_supply
 	metricData.Network.Staking.BondedRatio = metricData.Network.Staking.BondedTokens / metricData.Network.Staking.TotalSupply
+
+	// minting
+        metricData.Network.Minting.Inflation = 0.01
+        metricData.Network.Minting.ActualInflation = metricData.Network.Minting.Inflation / metricData.Network.Staking.BondedRatio
 
 	//gov
 //	metricData.Network.Gov.TotalProposalCount = restData.Gov.TotalProposalCount

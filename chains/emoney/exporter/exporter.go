@@ -136,7 +136,11 @@ func Start(log *zap.Logger) {
 					metricData.Validator.Commission.MaxChangeRate,
 					metricData.Validator.Commit.VoteType,
 					metricData.Validator.Commit.PrecommitStatus,
+
+					metricData.Network.Minting.Inflation,
+                                        metricData.Network.Minting.ActualInflation,
 //					metricData.Validator.Oracle.Miss,
+
 				}
 
 				for i := 0; i < len(gaugesNamespaceList); i++ {
