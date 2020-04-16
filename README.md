@@ -14,7 +14,7 @@ Cosmos, Terra, IRISnet, Kava, IOV, E-money
 ```bash
 mkdir Cosmos-IE && cd Cosmos-IE
 
-wget https://github.com/node-a-team/Cosmos-IE/releases/download/v1.0.0/Cosmos-IE.tar.gz  && sha256sum Cosmos-IE.tar.gz | fgrep 98f2e7a83c68fa067723723da67f925587013aeddd34309c6a5f9b17ec965d70 && tar -xvf Cosmos-IE.tar.gz || echo "Bad Binary!"
+wget https://github.com/node-a-team/Cosmos-IE/releases/download/v1.0.0/Cosmos-IE.tar.gz  && sha256sum Cosmos-IE.tar.gz | fgrep 859d85cdc73350eafe1b34271d2214f0dc5a039d422fc73050229af046c88c7c && tar -xvf Cosmos-IE.tar.gz || echo "Bad Binary!"
 ```
 
 ## Service
