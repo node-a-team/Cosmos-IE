@@ -14,5 +14,39 @@ Cosmos, Terra, IRISnet, Kava, IOV, E-money
 ```bash
 mkdir exporter && cd exporter
 
-wget https://github.com/node-a-team/Cosmos-IE/releases/download/v1.0.0/Cosmos-IE.tar.gz  && sha256sum Cosmos-IE.tar.gz | fgrep f010d7f8824c6a0e8573144ef8575f0596ca4c79c49587050e67b617fae97dc2 && tar -xvf Cosmos-IE.tar.gz || echo "Bad Binary!"
+wget https://github.com/node-a-team/Cosmos-IE/releases/download/v1.0.0/Cosmos-IE.tar.gz  && sha256sum Cosmos-IE.tar.gz | fgrep 853d78162d2332e9de890dfbcec482465f10ca308ce7f6cc73bbd05cd961bed0 && tar -xvf Cosmos-IE.tar.gz || echo "Bad Binary!"
+```
+
+## Service
+```bash
+# Make log directory & file
+sudo mkdir /var/log/userLog  &&
+sudo touch /var/log/userLog/Cosmos-IE.log  &&
+sudo chown ${USER}:${USER} /var/log/userLog/Cosmos-IE.log
+
+# Path: /data/cosmos/Cosmos-IE
+sudo tee /etc/systemd/system/Cosmos-IE.service > /dev/null <<EOF
+[Unit]
+Description=Integrated Exporter for CosmosSDK
+After=network-online.target
+
+[Service]
+User=${USER}
+WorkingDirectory=/data/cosmos/Cosmos-IE
+ExecStart=/data/cosmos/Cosmos-IE/Cosmos-IE run --chain cosmos --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys
+StandardOutput=file:/var/log/userLog/Cosmos-IE.log
+StandardError=file:/var/log/userLog/Cosmos-IE.log
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl enable Cosmos-IE.service
+sudo systemctl start Cosmos-IE.service
+
+
+## log
+tail -f /var/log/userLog/Cosmos-IE.log
 ```
