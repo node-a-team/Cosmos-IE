@@ -21,8 +21,8 @@ var (
 
 	// command로 안 받을 경우 defult 값 지정
 	chain string = ""
-        rpcAddr string = "tcp://localhost:26657"
-        restAddr string = "tcp://localhost:1317"
+        rpcAddr string = "localhost:26657"
+        restAddr string = "localhost:1317"
 	listenPort string = "26661"
 
 	operAddr string= ""
@@ -35,7 +35,7 @@ var runCmd = &cobra.Command{
         Short: "Validator Operator Address",
         Long: `Be sure to enter either Validator Operator Address or Consensus Hex Address
 ex#1_Local RPC/REST Server) Cosmos-IE run --chain cosmos --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys
-ex#2_Remote RPC/REST Server) Cosmos-IE run --chain cosmos --rpc-server tcp://192.168.0.10:26657 --rest-server tcp://192.168.0.10:1317 --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys
+ex#2_Remote RPC/REST Server) Cosmos-IE run --chain cosmos --rpc-server 192.168.0.10:26657 --rest-server 192.168.0.10:1317 --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys
 `,
         Run: func(cmd *cobra.Command, args []string) {
 		check_chain()
@@ -52,8 +52,8 @@ func init() {
 
 
 	// 입력받은 값을 RpcAddr 변수에 저장, 입력 받지 않을 경우 default(tcp://localhost:26657)
-        runCmd.Flags().StringVarP(&rpcAddr, "rpc-server", "", "tcp://localhost:26657", "<host>:<port> to Tendermint RPC interface for the selected chain")
-	runCmd.Flags().StringVarP(&restAddr, "rest-server", "", "tcp://localhost:1317", "<host>:<port> to Rest-Server(LCD-Server) interface for the selected chain")
+        runCmd.Flags().StringVarP(&rpcAddr, "rpc-server", "", "localhost:26657", "<host>:<port> to Tendermint RPC interface for the selected chain")
+	runCmd.Flags().StringVarP(&restAddr, "rest-server", "", "localhost:1317", "<host>:<port> to Rest-Server(LCD-Server) interface for the selected chain")
 
 	runCmd.Flags().StringVarP(&listenPort, "port", "p", "26661", "Port to listen for Prometheus collector connections")
 
