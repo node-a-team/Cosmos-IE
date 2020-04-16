@@ -116,8 +116,8 @@ func Start(log *zap.Logger) {
 					metricData.Network.Staking.TotalSupply,
 					metricData.Network.Staking.BondedRatio,
 
-					metricData.Network.Gov.TotalProposalCount,
-					metricData.Network.Gov.VotingProposalCount,
+//					metricData.Network.Gov.TotalProposalCount,
+//					metricData.Network.Gov.VotingProposalCount,
 
 					metricData.Validator.VotingPower,
 					metricData.Validator.MinSelfDelegation,
@@ -137,8 +137,8 @@ func Start(log *zap.Logger) {
 					metricData.Validator.Commit.VoteType,
 					metricData.Validator.Commit.PrecommitStatus,
 
-					metricData.Network.Minting.Inflation,
-                                        metricData.Network.Minting.ActualInflation,
+//  					metricData.Network.Minting.Inflation,
+//  a                                   metricData.Network.Minting.ActualInflation,
 //					metricData.Validator.Oracle.Miss,
 
 				}
