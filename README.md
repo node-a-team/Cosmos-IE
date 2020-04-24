@@ -5,10 +5,13 @@
 Integrated Exporter for CosmosSDK
 
 ## Introduction
-This exporter is for monitoring information which is not provided from Tendermint’s basic Prometheus exporter(localhost:26660), and other specific information monitoring purposes
+This Prometheus exporter is for monitoring information which is not provided from Tendermint’s basic Prometheus exporter(localhost:26660)
 
 ## List of supported chains
-Cosmos, Terra, IRISnet, Kava, IOV, E-money
+Cosmos, Terra, IRISnet, Kava, E-money, IOV
+
+## Docs
+[Cosmos-IE(Integrated Exporter for CosmosSDK)](https://www.notion.so/wlsaud619/Cosmos-IE-Integrated-Exporter-for-CosmosSDK-1e9c6cf1bdb0483180829676b533565b)
 
 ## Install
 ```bash
@@ -17,14 +20,9 @@ mkdir Cosmos-IE && cd Cosmos-IE
 wget https://github.com/node-a-team/Cosmos-IE/releases/download/v1.0.0/Cosmos-IE.tar.gz  && sha256sum Cosmos-IE.tar.gz | fgrep be26403ca8dd1dd19f95ac7f652acbe604de72fb30a01b576cf82ba44f78ba8f && tar -xvf Cosmos-IE.tar.gz || echo "Bad Binary!"
 ```
 
-## Service
+## Service(ex: cosmos)
 ```bash
-# Make log directory & file
-sudo mkdir /var/log/userLog  &&
-sudo touch /var/log/userLog/Cosmos-IE.log  &&
-sudo chown ${USER}:${USER} /var/log/userLog/Cosmos-IE.log
-
-# Path: /data/cosmos/Cosmos-IE
+## Create a systemd service
 sudo tee /etc/systemd/system/Cosmos-IE.service > /dev/null <<EOF
 [Unit]
 Description=Integrated Exporter for CosmosSDK
@@ -32,21 +30,23 @@ After=network-online.target
 
 [Service]
 User=${USER}
-WorkingDirectory=/data/cosmos/Cosmos-IE
-ExecStart=/data/cosmos/Cosmos-IE/Cosmos-IE run --chain cosmos --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys
-StandardOutput=file:/var/log/userLog/Cosmos-IE.log
-StandardError=file:/var/log/userLog/Cosmos-IE.log
+ExecStart=$HOME/Cosmos-IE/Cosmos-IE run \
+  --chain "cosmos" \
+  --oper-addr "cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys"
 Restart=always
 RestartSec=3
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=Cosmos-IE
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
-sudo systemctl enable Cosmos-IE.service
-sudo systemctl start Cosmos-IE.service
-
+## Start service
+sudo systemctl enable Cosmos-IE
+sudo systemctl start Cosmos-IE
 
 ## log
-tail -f /var/log/userLog/Cosmos-IE.log
+journalctl -f | grep Cosmos-IE
 ```
