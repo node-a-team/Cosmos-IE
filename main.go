@@ -20,7 +20,7 @@ import (
 )
 
 var (
-        chainList = []string{"cosmos", "terra", "iris", "kava", "iov", "emoney"}
+        chainList = []string{"cosmos", "terra", "iris", "kava", "iov", "emoney", "band"}
 )
 
 

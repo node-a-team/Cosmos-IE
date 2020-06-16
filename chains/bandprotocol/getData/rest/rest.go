@@ -8,13 +8,15 @@ import (
 )
 
 var (
-	Addr     string
+        Addr string
 	OperAddr string
 )
 
+
 type RESTData struct {
+
 	BlockHeight	int64
-	Commit		commitInfo
+	Commit          commitInfo
 	StakingPool	stakingPool
 
 	Validatorsets	map[string][]string
@@ -30,17 +32,18 @@ type RESTData struct {
 
 func newRESTData(blockHeight int64) *RESTData {
 
-	rd := &RESTData{
-		BlockHeight:   blockHeight,
-		Validatorsets: make(map[string][]string),
-	}
+	rd := &RESTData {
+		BlockHeight:	blockHeight,
+		Validatorsets:	make(map[string][]string),
+        }
 
 	return rd
 }
 
 func GetData(blockHeight int64, blockData Blocks, log *zap.Logger) (*RESTData) {
 
-	accAddr := utils.GetAccAddrFromOperAddr_localPrefixes(OperAddr, log, Bech32Prefixes)
+
+	accAddr := utils.GetAccAddrFromOperAddr(OperAddr, log)
 
 	rd := newRESTData(blockHeight)
 	rd.StakingPool = getStakingPool(log)
@@ -50,7 +53,7 @@ func GetData(blockHeight int64, blockData Blocks, log *zap.Logger) (*RESTData) {
 	rd.Validators = getValidators(log)
 	rd.Delegations = getDelegations(accAddr, log)
 	rd.Balances = getBalances(accAddr, log)
-	rd.Rewards, rd.Commission = getRewardsAndCommisson(accAddr, log)
+	rd.Rewards, rd.Commission = getRewardsAndCommisson(log)
 
 	rd.Gov = getGovInfo(log)
 
@@ -62,8 +65,9 @@ func GetData(blockHeight int64, blockData Blocks, log *zap.Logger) (*RESTData) {
 }
 
 func runRESTCommand(str string) ([]uint8, error) {
-	cmd := "curl -s -XGET " + Addr + str + " -H \"accept:application/json\""
-	out, err := exec.Command("/bin/bash", "-c", cmd).Output()
+        cmd := "curl -s -XGET " +Addr +str +" -H \"accept:application/json\""
+        out, err := exec.Command("/bin/bash", "-c", cmd).Output()
+//	fmt.Println(cmd)
 
-	return out, err
+        return out, err
 }

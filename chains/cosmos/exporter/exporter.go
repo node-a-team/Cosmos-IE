@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"time"
 	"go.uber.org/zap"
+	"strconv"
 
-	rpc "github.com/node-a-team/Cosmos-IE/chains/cosmos/getData/rpc"
+//	rpc "github.com/node-a-team/Cosmos-IE/chains/cosmos/getData/rpc"
 	rest "github.com/node-a-team/Cosmos-IE/chains/cosmos/getData/rest"
 	metric "github.com/node-a-team/Cosmos-IE/chains/cosmos/exporter/metric"
 	utils "github.com/node-a-team/Cosmos-IE/utils"
@@ -67,7 +68,8 @@ func Start(log *zap.Logger) {
 			}()
 
 
-			currentBlockHeight := rpc.BlockHeight()
+			blockData := rest.GetBlocks(log)
+                        currentBlockHeight, _:= strconv.ParseInt(blockData.Block.Header.Height, 10, 64)
 
 			if previousBlockHeight != currentBlockHeight {
 
@@ -75,10 +77,13 @@ func Start(log *zap.Logger) {
 				log.Info("RPC-Server", zap.Bool("Success", true), zap.String("err", "nil"), zap.String("Get Data", "Block Height: " +fmt.Sprint(currentBlockHeight)))
 
 
-				restData, consHexAddr := rest.GetData(currentBlockHeight, log)
-				rpcData := rpc.GetData(currentBlockHeight, consHexAddr, log)
+//				restData, consHexAddr := rest.GetData(currentBlockHeight, log)
+//				rpcData := rpc.GetData(currentBlockHeight, consHexAddr, log)
 
-				metric.SetMetric(currentBlockHeight, restData, rpcData, log)
+				restData := rest.GetData(currentBlockHeight, blockData, log)
+
+//				metric.SetMetric(currentBlockHeight, restData, rpcData, log)
+				metric.SetMetric(currentBlockHeight, restData, log)
 
 				metricData := metric.GetMetric()
 				denomList := metric.GetDenomList()

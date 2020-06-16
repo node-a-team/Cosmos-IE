@@ -16,6 +16,7 @@ var (
 type RESTData struct {
 
 	BlockHeight	int64
+	Commit		commitInfo
 	StakingPool	stakingPool
 
 	Validatorsets	map[string][]string
@@ -39,12 +40,13 @@ func newRESTData(blockHeight int64) *RESTData {
 	return rd
 }
 
-func GetData(blockHeight int64, log *zap.Logger) (*RESTData, string) {
+func GetData(blockHeight int64, blockData Blocks, log *zap.Logger) (*RESTData) {
 
 
 	accAddr := utils.GetAccAddrFromOperAddr(OperAddr, log)
 
 	rd := newRESTData(blockHeight)
+
 	rd.StakingPool = getStakingPool(log)
 	rd.Inflation = getInflation(log)
 
@@ -57,7 +59,10 @@ func GetData(blockHeight int64, log *zap.Logger) (*RESTData, string) {
 	rd.Gov = getGovInfo(log)
 
 	consHexAddr := utils.Bech32AddrToHexAddr(rd.Validatorsets[rd.Validators.ConsPubKey][0], log)
-	return rd, consHexAddr
+
+	rd.Commit = getCommit(blockData, consHexAddr)
+
+	return rd
 }
 
 func runRESTCommand(str string) ([]uint8, error) {

@@ -9,9 +9,7 @@ import (
 	core "github.com/e-money/em-ledger/types"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-
 	"github.com/node-a-team/Cosmos-IE/chains/emoney/exporter"
-	rpc "github.com/node-a-team/Cosmos-IE/chains/emoney/getData/rpc"
 )
 
 var ()
@@ -27,8 +25,6 @@ func Main(port string) {
 	config.SetBech32PrefixForConsensusNode(core.Bech32PrefixConsAddr, core.Bech32PrefixConsPub)
 	config.Seal()
 
-
-	rpc.OpenSocket(log)
 
 	http.Handle("/metrics", promhttp.Handler())
 	go exporter.Start(log)

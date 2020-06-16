@@ -12,6 +12,7 @@ import (
         kava "github.com/node-a-team/Cosmos-IE/chains/kava"
         iov "github.com/node-a-team/Cosmos-IE/chains/iov"
         emoney "github.com/node-a-team/Cosmos-IE/chains/emoney"
+        band "github.com/node-a-team/Cosmos-IE/chains/bandprotocol"
 
 )
 
@@ -34,8 +35,8 @@ var runCmd = &cobra.Command{
         Use:   "run",
         Short: "Validator Operator Address",
         Long: `Be sure to enter either Validator Operator Address or Consensus Hex Address
-ex#1_Local RPC/REST Server) Cosmos-IE run --chain cosmos --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys
-ex#2_Remote RPC/REST Server) Cosmos-IE run --chain cosmos --rpc-server 192.168.0.10:26657 --rest-server 192.168.0.10:1317 --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys
+ex#1_Local REST Server) Cosmos-IE run --chain cosmos --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys
+ex#2_Remote REST Server) Cosmos-IE run --chain cosmos --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys --rest-server 192.168.0.10:1317 
 `,
         Run: func(cmd *cobra.Command, args []string) {
 		check_chain()
@@ -98,6 +99,8 @@ func run() {
                         iov.Main(listenPort)
                 case "emoney":
                         emoney.Main(listenPort)
+		case "band":
+                        band.Main(listenPort)
 
         }
 }

@@ -1,18 +1,17 @@
 package metric
 
 import (
-
 	"go.uber.org/zap"
 
-	rest "github.com/node-a-team/Cosmos-IE/chains/terra/getData/rest"
-//	rpc "github.com/node-a-team/Cosmos-IE/chains/terra/getData/rpc"
+	rest "github.com/node-a-team/Cosmos-IE/chains/bandprotocol/getData/rest"
+//	rpc "github.com/node-a-team/Cosmos-IE/chains/bandprotocol/getData/rpc"
 	utils "github.com/node-a-team/Cosmos-IE/utils"
 )
 
 var (
 	metricData metric
 
-	DenomList = []string{"uluna", "ukrw", "usdr", "uusd", "umnt"}
+	DenomList = []string{"uband"}
 	GaugesNamespaceList = [...]string{"blockHeight",
 				"notBondedTokens",
 				"bondedTokens",
@@ -34,7 +33,8 @@ var (
 				"commissionMaxChangeRate",
 				"commitVoteType",
 				"precommitStatus",
-				"oracleMiss",
+				"inflation",
+				"actualInflation",
 				}
 )
 
@@ -50,6 +50,11 @@ type metric struct {
 			BondedTokens	float64
 			TotalSupply	float64
 			BondedRatio	float64
+		}
+
+		Minting struct {
+			Inflation	float64
+			ActualInflation	float64
 		}
 
 		Gov struct{
@@ -100,10 +105,6 @@ type metric struct {
 	                PrecommitStatus         float64
 		}
 
-		Oracle struct {
-			Miss	float64
-		}
-
 	}
 }
 
@@ -124,7 +125,11 @@ func SetMetric(currentBlock int64, restData *rest.RESTData, log *zap.Logger) {
 	metricData.Network.Staking.TotalSupply = restData.StakingPool.Result.Total_supply
 	metricData.Network.Staking.BondedRatio = metricData.Network.Staking.BondedTokens / metricData.Network.Staking.TotalSupply
 
-	//gov
+	// minting
+	metricData.Network.Minting.Inflation = restData.Inflation
+	metricData.Network.Minting.ActualInflation = metricData.Network.Minting.Inflation / metricData.Network.Staking.BondedRatio
+
+	// gov
 	metricData.Network.Gov.TotalProposalCount = restData.Gov.TotalProposalCount
         metricData.Network.Gov.VotingProposalCount = restData.Gov.VotingProposalCount
 
@@ -163,9 +168,6 @@ func SetMetric(currentBlock int64, restData *rest.RESTData, log *zap.Logger) {
 	// commit
 //	metricData.Validator.Commit.VoteType = restData.Commit.VoteType
         metricData.Validator.Commit.PrecommitStatus = restData.Commit.ValidatorPrecommitStatus
-
-	// oracle
-	metricData.Validator.Oracle.Miss = restData.Oracle.Miss
 
 
 

@@ -1,4 +1,4 @@
-package terra
+package cosmos
 
 import (
 	"fmt"
@@ -6,13 +6,15 @@ import (
 	"go.uber.org/zap"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	core "github.com/terra-project/core/types"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/node-a-team/Cosmos-IE/chains/terra/exporter"
+	"github.com/node-a-team/Cosmos-IE/chains/bandprotocol/exporter"
 )
 
-var ()
+const (
+	bech32MainPrefix = "band"
+	bip44CoinType    = 494
+)
 
 func Main(port string) {
 
@@ -20,11 +22,10 @@ func Main(port string) {
         defer log.Sync()
 
 	config := sdk.GetConfig()
-	config.SetCoinType(core.CoinType)
-	config.SetFullFundraiserPath(core.FullFundraiserPath)
-	config.SetBech32PrefixForAccount(core.Bech32PrefixAccAddr, core.Bech32PrefixAccPub)
-	config.SetBech32PrefixForValidator(core.Bech32PrefixValAddr, core.Bech32PrefixValPub)
-	config.SetBech32PrefixForConsensusNode(core.Bech32PrefixConsAddr, core.Bech32PrefixConsPub)
+	config.SetCoinType(bip44CoinType)
+	config.SetBech32PrefixForAccount(bech32MainPrefix, bech32MainPrefix+sdk.PrefixPublic)
+        config.SetBech32PrefixForValidator(bech32MainPrefix+sdk.PrefixValidator+sdk.PrefixOperator, bech32MainPrefix+sdk.PrefixValidator+sdk.PrefixOperator+sdk.PrefixPublic)
+        config.SetBech32PrefixForConsensusNode(bech32MainPrefix+sdk.PrefixValidator+sdk.PrefixConsensus, bech32MainPrefix+sdk.PrefixValidator+sdk.PrefixConsensus+sdk.PrefixPublic)
 	config.Seal()
 
 	http.Handle("/metrics", promhttp.Handler())
@@ -38,5 +39,4 @@ func Main(port string) {
         } else {
 		log.Info("HTTP Handle", zap.Bool("Success", true), zap.String("err", "nil"), zap.String("Listen&Serve", "Prometheus Handler(Port: " +port +")"),)
         }
-
 }

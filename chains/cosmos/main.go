@@ -8,9 +8,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-
 	"github.com/node-a-team/Cosmos-IE/chains/cosmos/exporter"
-	rpc "github.com/node-a-team/Cosmos-IE/chains/cosmos/getData/rpc"
 )
 
 const (
@@ -26,8 +24,6 @@ func Main(port string) {
 	config.SetBech32PrefixForValidator(sdk.Bech32PrefixValAddr , sdk.Bech32PrefixValPub)
 	config.SetBech32PrefixForConsensusNode(sdk.Bech32PrefixConsAddr, sdk.Bech32PrefixConsPub)
 	config.Seal()
-
-	rpc.OpenSocket(log)
 
 	http.Handle("/metrics", promhttp.Handler())
 	go exporter.Start(log)

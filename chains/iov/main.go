@@ -6,8 +6,8 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-
 	"github.com/node-a-team/Cosmos-IE/chains/iov/exporter"
+
 	rpc "github.com/node-a-team/Cosmos-IE/chains/iov/getData/rpc"
 )
 
