@@ -8,7 +8,7 @@ Integrated Exporter for CosmosSDK
 This Prometheus exporter is for monitoring information which is not provided from Tendermint’s basic Prometheus exporter(localhost:26660)
 
 ## List of supported chains
-Cosmos, Terra, IRISnet, Kava, E-money, IOV
+Cosmos, Terra, IRISnet, Kava, E-money, BandProtocol, IOV
 
 ## Docs
 [Cosmos-IE(Integrated Exporter for CosmosSDK)](https://www.notion.so/wlsaud619/Cosmos-IE-Integrated-Exporter-for-CosmosSDK-1e9c6cf1bdb0483180829676b533565b)
@@ -17,7 +17,7 @@ Cosmos, Terra, IRISnet, Kava, E-money, IOV
 ```bash
 mkdir Cosmos-IE && cd Cosmos-IE
 
-wget https://github.com/node-a-team/Cosmos-IE/releases/download/v1.0.0/Cosmos-IE.tar.gz  && sha256sum Cosmos-IE.tar.gz | fgrep be26403ca8dd1dd19f95ac7f652acbe604de72fb30a01b576cf82ba44f78ba8f && tar -xvf Cosmos-IE.tar.gz || echo "Bad Binary!"
+wget https://github.com/node-a-team/Cosmos-IE/releases/download/v1.1.0/Cosmos-IE.tar.gz  && sha256sum Cosmos-IE.tar.gz | fgrep 78911047f3fab4c862589f995d0790b99ad32ecd5a19125a6012e6b85b2b8378 && tar -xvf Cosmos-IE.tar.gz || echo "Bad Binary!"
 ```
 
 ## Service(ex: cosmos)
