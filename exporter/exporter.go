@@ -2,44 +2,42 @@ package exporter
 
 import (
 	"fmt"
-	"time"
+//	"time"
 	"go.uber.org/zap"
 	"strconv"
 
-//	rpc "github.com/node-a-team/Cosmos-IE/chains/terra/getData/rpc"
-	rest "github.com/node-a-team/Cosmos-IE/chains/terra/getData/rest"
-	metric "github.com/node-a-team/Cosmos-IE/chains/terra/exporter/metric"
+	rest "github.com/node-a-team/Cosmos-IE/rest/common"
 	utils "github.com/node-a-team/Cosmos-IE/utils"
 
 	"github.com/prometheus/client_golang/prometheus"
 )
 
 var (
-	previousBlockHeight	int64
+	defaultGauges []prometheus.Gauge
+	additionalGauges []prometheus.Gauge
 
+	gaugesDenom []prometheus.Gauge
 )
 
-func Start(log *zap.Logger) {
+func Start(chain string, log *zap.Logger) {
 
-	gaugesNamespaceList := metric.GaugesNamespaceList
+	denomList := getDenomList(chain)
 
-	var gauges []prometheus.Gauge = make([]prometheus.Gauge, len(gaugesNamespaceList))
-        var gaugesDenom []prometheus.Gauge = make([]prometheus.Gauge, len(metric.DenomList)*3) // wallet, rewards, commission
-
+	defaultGauges = make([]prometheus.Gauge, len(gaugesNamespaceList))
+	gaugesDenom = make([]prometheus.Gauge, len(denomList)*3)
 
 	// nomal guages
 	for i := 0; i < len(gaugesNamespaceList); i++ {
-                gauges[i] = utils.NewGauge("exporter", gaugesNamespaceList[i], "")
-                prometheus.MustRegister(gauges[i])
+                defaultGauges[i] = utils.NewGauge("exporter", gaugesNamespaceList[i], "")
+                prometheus.MustRegister(defaultGauges[i])
         }
-
 
 	// denom gagues
 	count := 0
-	for i := 0; i < len(metric.DenomList)*3; i += 3 {
-		gaugesDenom[i] = utils.NewGauge("exporter_balances", metric.DenomList[count], "")
-		gaugesDenom[i+1] = utils.NewGauge("exporter_commission", metric.DenomList[count], "")
-		gaugesDenom[i+2] = utils.NewGauge("exporter_rewards", metric.DenomList[count], "")
+	for i := 0; i < len(denomList)*3; i += 3 {
+		gaugesDenom[i] = utils.NewGauge("exporter_balances", denomList[count], "")
+		gaugesDenom[i+1] = utils.NewGauge("exporter_commission", denomList[count], "")
+		gaugesDenom[i+2] = utils.NewGauge("exporter_rewards", denomList[count], "")
 		prometheus.MustRegister(gaugesDenom[i])
 		prometheus.MustRegister(gaugesDenom[i+1])
 		prometheus.MustRegister(gaugesDenom[i+2])
@@ -57,6 +55,7 @@ func Start(log *zap.Logger) {
 
 	for {
 		func() {
+/*			
 			defer func() {
 
 				if r := recover(); r != nil {
@@ -66,7 +65,7 @@ func Start(log *zap.Logger) {
 				time.Sleep(500 * time.Millisecond)
 
 			}()
-
+*/
 
 			blockData := rest.GetBlocks(log)
                         currentBlockHeight, _:= strconv.ParseInt(blockData.Block.Header.Height, 10, 64)
@@ -74,20 +73,13 @@ func Start(log *zap.Logger) {
 			if previousBlockHeight != currentBlockHeight {
 
 				fmt.Println("")
-				log.Info("RPC-Server", zap.Bool("Success", true), zap.String("err", "nil"), zap.String("Get Data", "Block Height: " +fmt.Sprint(currentBlockHeight)))
-
-//				restData, consHexAddr := rest.GetData(currentBlockHeight, log)
-//				rpcData := rpc.GetData(currentBlockHeight, consHexAddr, log)
-
+				log.Info("\t", zap.Bool("Success", true), zap.String("Block Height", fmt.Sprint(currentBlockHeight)))
 				restData := rest.GetData(currentBlockHeight, blockData, log)
 
-//				metric.SetMetric(currentBlockHeight, restData, rpcData, log)
-				metric.SetMetric(currentBlockHeight, restData, log)
+				SetMetric(currentBlockHeight, restData, log)
+				metricData := GetMetric()
 
-				metricData := metric.GetMetric()
-				denomList := metric.GetDenomList()
-
-
+				// balances, commission, rewards,
 				count := 0
 				for i := 0; i < len(denomList); i++ {
 
@@ -110,7 +102,6 @@ func Start(log *zap.Logger) {
                                                 }
                                         }
 				}
-
 
 				gaugesValue := [...]float64{
 					float64(metricData.Network.BlockHeight),
@@ -140,13 +131,11 @@ func Start(log *zap.Logger) {
 					metricData.Validator.Commission.MaxChangeRate,
 					metricData.Validator.Commit.VoteType,
 					metricData.Validator.Commit.PrecommitStatus,
-					metricData.Validator.Oracle.Miss,
 				}
 
-				for i := 0; i < len(gaugesNamespaceList); i++ {
-					gauges[i].Set(gaugesValue[i])
+				for i:=0; i < len(gaugesNamespaceList); i++ {
+					defaultGauges[i].Set(gaugesValue[i])
 				}
-
 
 				gaugesForLabel.WithLabelValues(metricData.Network.ChainID,
 								metricData.Validator.Moniker,
@@ -155,6 +144,8 @@ func Start(log *zap.Logger) {
 								metricData.Validator.Address.ConsensusHex,
 				).Add(0)
 
+				addGauges(chain, metricData, log)
+
 			}
 
 			previousBlockHeight = currentBlockHeight
@@ -162,4 +153,24 @@ func Start(log *zap.Logger) {
 	}
 }
 
+func addGauges(chain string, metricData *metric, log *zap.Logger) {
 
+	if chain == "terra" {
+		if len(additionalGauges) == 0 {
+			additionalGauges = make([]prometheus.Gauge, len(gaugesNamespaceList_Terra))
+
+			for i := 0; i < len(gaugesNamespaceList_Terra); i++ {
+                                additionalGauges[i] = utils.NewGauge("exporter", gaugesNamespaceList_Terra[i], "")
+                                prometheus.MustRegister(additionalGauges[i])
+			}
+		} else {
+			gaugesValue := [...]float64{
+				metricData.Validator.Oracle.Miss,
+				metricData.Validator.Oracle.FeederBalance,
+		        }
+			for i:=0; i < len(gaugesNamespaceList_Terra); i++ {
+		                additionalGauges[i].Set(gaugesValue[i])
+		        }
+		}
+	}
+}

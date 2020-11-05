@@ -1,112 +1,11 @@
-package metric
+package exporter
 
 import (
-
 	"go.uber.org/zap"
 
-	rest "github.com/node-a-team/Cosmos-IE/chains/terra/getData/rest"
-//	rpc "github.com/node-a-team/Cosmos-IE/chains/terra/getData/rpc"
+	rest "github.com/node-a-team/Cosmos-IE/rest/common"
 	utils "github.com/node-a-team/Cosmos-IE/utils"
 )
-
-var (
-	metricData metric
-
-	DenomList = []string{"uluna", "ukrw", "usdr", "uusd", "umnt"}
-	GaugesNamespaceList = [...]string{"blockHeight",
-				"notBondedTokens",
-				"bondedTokens",
-				"totalSupply",
-				"bondedRatio",
-				"totalProposalCount",
-				"votingProposalCount",
-				"votingPower",
-				"minSelfDelegation",
-				"jailStatus",
-				"proposerRanking",
-				"proposerStatus",
-				"delegationShares",
-				"delegationRatio",
-				"delegatorCount",
-				"delegationSelf",
-				"commissionRate",
-				"commissionMaxRate",
-				"commissionMaxChangeRate",
-				"commitVoteType",
-				"precommitStatus",
-				"oracleMiss",
-				}
-)
-
-type metric struct {
-
-	Network struct {
-		ChainID         string
-		BlockHeight	int64
-		PrecommitRate	float64
-
-		Staking struct {
-			NotBondedTokens	float64
-			BondedTokens	float64
-			TotalSupply	float64
-			BondedRatio	float64
-		}
-
-		Gov struct{
-                        TotalProposalCount      float64
-                        VotingProposalCount     float64
-                }
-	}
-
-	Validator struct {
-		Moniker			string
-		VotingPower		float64
-		MinSelfDelegation       float64
-                JailStatus              float64
-
-
-
-		Address struct {
-			Account		string
-			Operator	string
-			ConsensusHex	string
-		}
-		Proposer struct {
-			Ranking		float64
-			Status		float64
-		}
-
-		Delegation struct {
-			Shares		float64
-			Ratio		float64
-			DelegatorCount	float64
-			Self		float64
-		}
-
-		Commission struct {
-			Rate		float64
-			MaxRate		float64
-			MaxChangeRate	float64
-		}
-
-		Account struct {
-			Balances	[]rest.Coin
-			Commission	[]rest.Coin
-			Rewards		[]rest.Coin
-		}
-
-		Commit struct {
-			VoteType                float64
-	                PrecommitStatus         float64
-		}
-
-		Oracle struct {
-			Miss	float64
-		}
-
-	}
-}
-
 
 
 func SetMetric(currentBlock int64, restData *rest.RESTData, log *zap.Logger) {
@@ -166,8 +65,8 @@ func SetMetric(currentBlock int64, restData *rest.RESTData, log *zap.Logger) {
 
 	// oracle
 	metricData.Validator.Oracle.Miss = restData.Oracle.Miss
-
-
+	//for Terra
+	metricData.Validator.Oracle.FeederBalance = utils.StringToFloat64(restData.Oracle.Feeder.Balance.Amount)
 
 }
 
@@ -176,6 +75,3 @@ func GetMetric() *metric {
 	return &metricData
 }
 
-func GetDenomList() []string {
-	return  DenomList
-}
