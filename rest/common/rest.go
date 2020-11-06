@@ -26,6 +26,7 @@ type RESTData struct {
 	Balances	[]Coin
 	Rewards		[]Coin
 	Commission	[]Coin
+	Inflation	float64
 
 	Oracle		terra.Oracle
 	Gov		govInfo
@@ -41,39 +42,52 @@ func newRESTData(blockHeight int64) *RESTData {
 	return rd
 }
 
-func GetData(blockHeight int64, blockData Blocks, log *zap.Logger) (*RESTData) {
+func GetData(chain string, blockHeight int64, blockData Blocks, denom string, log *zap.Logger) (*RESTData) {
 
 
 	accAddr := utils.GetAccAddrFromOperAddr(OperAddr, log)
 
 	rd := newRESTData(blockHeight)
-	rd.StakingPool = getStakingPool(log)
+	rd.StakingPool = getStakingPool(denom, log)
 
 	rd.Validatorsets = getValidatorsets(blockHeight, log)
 	rd.Validators = getValidators(log)
 	rd.Delegations = getDelegations(accAddr, log)
 	rd.Balances = getBalances(accAddr, log)
 	rd.Rewards, rd.Commission = getRewardsAndCommisson(log)
-	rd.Gov = getGovInfo(log)
+	rd.Inflation = getInflation(chain, denom, log)
 
-	// for Terra
-	rd.Oracle = terra.GetOracle(Addr, OperAddr,
-		terra.Oracle{Feeder: terra.Feeder{Balance: terra.Balance{Denom: terra.FeeDenom }} },
-		log,
-	)
+	consHexAddr := utils.Bech32AddrToHexAddr(rd.Validatorsets[rd.Validators.ConsPubKey][0], log)
+        rd.Commit = getCommit(blockData, consHexAddr)
 
-	for _, v := range getBalances(rd.Oracle.Feeder.Address, log) {
-		if v.Denom == terra.FeeDenom {
-			rd.Oracle.Feeder.Balance.Denom = v.Denom
-			rd.Oracle.Feeder.Balance.Amount = v.Amount
+
+	if chain != "emoney" {
+		rd.Gov = getGovInfo(log)
+	} else if chain == "terra" {
+		rd.Oracle = terra.GetOracle(Addr, OperAddr,
+			terra.Oracle{Feeder: terra.Feeder{Balance: terra.Balance{Denom: terra.FeeDenom }} },
+			log,
+		)
+		for _, v := range getBalances(rd.Oracle.Feeder.Address, log) {
+			if v.Denom == terra.FeeDenom {
+				rd.Oracle.Feeder.Balance.Denom = v.Denom
+				rd.Oracle.Feeder.Balance.Amount = v.Amount
+			}
 		}
 	}
 
-	consHexAddr := utils.Bech32AddrToHexAddr(rd.Validatorsets[rd.Validators.ConsPubKey][0], log)
-	rd.Commit = getCommit(blockData, consHexAddr)
+
+
+
+
+
+
+
 
 	return rd
 }
+
+
 
 func runRESTCommand(str string) ([]uint8, error) {
         cmd := "curl -s -XGET " +Addr +str +" -H \"accept:application/json\""

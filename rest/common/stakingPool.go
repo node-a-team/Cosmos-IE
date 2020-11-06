@@ -1,7 +1,6 @@
 package rest
 
 import (
-	"fmt"
 	"strings"
 	"go.uber.org/zap"
 	"encoding/json"
@@ -10,7 +9,6 @@ import (
 )
 
 var (
-	denom = "luna"
 )
 
 type stakingPool struct {
@@ -27,7 +25,7 @@ type totalSupply struct {
 	Result string	`json:"result"`
 }
 
-func getStakingPool(log *zap.Logger) stakingPool {
+func getStakingPool(denom string, log *zap.Logger) stakingPool {
 
 	var sp stakingPool
 
@@ -41,19 +39,19 @@ func getStakingPool(log *zap.Logger) stakingPool {
 	} else if err != nil {
                 log.Fatal("", zap.Bool("Success", false), zap.String("err", "Failed to connect to REST-Server"),)
 	} else {
-                log.Info("", zap.Bool("Success", true), zap.String("err", "nil"), zap.String("Staking Pool", fmt.Sprint(sp)),)
+                log.Info("", zap.Bool("Success", true), zap.String("Bonded tokens", sp.Result.Bonded_tokens),)
         }
 
-	sp.Result.Total_supply = getTotalSupply(log)
+	sp.Result.Total_supply = getTotalSupply(denom, log)
 
 	return sp
 }
 
-func getTotalSupply(log *zap.Logger) float64 {
+func getTotalSupply(denom string, log *zap.Logger) float64 {
 
         var ts totalSupply
 
-        res, _ := runRESTCommand("/supply/total/u" +denom)
+        res, _ := runRESTCommand("/supply/total/" +denom)
         json.Unmarshal(res, &ts)
 
 	// log

@@ -23,6 +23,10 @@ func SetMetric(currentBlock int64, restData *rest.RESTData, log *zap.Logger) {
 	metricData.Network.Staking.TotalSupply = restData.StakingPool.Result.Total_supply
 	metricData.Network.Staking.BondedRatio = metricData.Network.Staking.BondedTokens / metricData.Network.Staking.TotalSupply
 
+	// minting
+	metricData.Network.Minting.Inflation = restData.Inflation
+	metricData.Network.Minting.ActualInflation = metricData.Network.Minting.Inflation / metricData.Network.Staking.BondedRatio
+
 	//gov
 	metricData.Network.Gov.TotalProposalCount = restData.Gov.TotalProposalCount
         metricData.Network.Gov.VotingProposalCount = restData.Gov.VotingProposalCount

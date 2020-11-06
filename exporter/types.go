@@ -2,6 +2,7 @@ package exporter
 
 import (
 	rest "github.com/node-a-team/Cosmos-IE/rest/common"
+
 )
 
 var (
@@ -28,6 +29,8 @@ var (
                                 "commissionMaxChangeRate",
                                 "commitVoteType",
                                 "precommitStatus",
+				"inflation",
+				"actualInflation",
                                 }
 
 	gaugesNamespaceList_Terra = [...]string{"oracleMiss",
@@ -50,6 +53,11 @@ type metric struct {
                         TotalSupply     float64
                         BondedRatio     float64
                 }
+
+		Minting struct {
+			Inflation	float64
+			ActualInflation	float64
+		}
 
                 Gov struct{
                         TotalProposalCount      float64
@@ -112,8 +120,16 @@ func getDenomList(chain string) []string {
 
 	var dList []string
 
-	if chain == "terra" {
-		dList = []string{"uluna", "ukrw", "usdr", "uusd", "umnt"}
+	// Add a staking denom to index 0
+	switch chain{
+		case "terra":
+			dList = []string{"uluna",
+					"ukrw", "usdr", "uusd", "umnt"}
+		case "kava":
+			dList = []string{"ukava"}
+		case "emoney":
+			dList = []string{"ungm",
+					"eeur", "echf", "edkk", "enok", "esek"}
 	}
 
 	return  dList

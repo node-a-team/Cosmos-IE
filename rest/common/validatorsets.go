@@ -38,7 +38,7 @@ func getValidatorsets(currentBlockHeight int64, log *zap.Logger) map[string][]st
                 // handle error
                 log.Fatal("", zap.Bool("Success", false), zap.String("err", string(res),))
         } else {
-                log.Info("", zap.Bool("Success", true), zap.String("Get Data", "Validatorsets"),)
+                log.Info("", zap.Bool("Success", true), zap.String("Number of validators", fmt.Sprint(len(vSets.Result.Validators)) ),)
         }
 
 

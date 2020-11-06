@@ -9,9 +9,9 @@ import (
 	cosmos "github.com/node-a-team/Cosmos-IE/chains/cosmos"
 //        terra "github.com/node-a-team/Cosmos-IE/chains/terra"
         iris "github.com/node-a-team/Cosmos-IE/chains/iris"
-        kava "github.com/node-a-team/Cosmos-IE/chains/kava"
+//        kava "github.com/node-a-team/Cosmos-IE/chains/kava"
         iov "github.com/node-a-team/Cosmos-IE/chains/iov"
-        emoney "github.com/node-a-team/Cosmos-IE/chains/emoney"
+//        emoney "github.com/node-a-team/Cosmos-IE/chains/emoney"
         band "github.com/node-a-team/Cosmos-IE/chains/bandprotocol"
 
 	exporter "github.com/node-a-team/Cosmos-IE/exporter"
@@ -97,18 +97,18 @@ func run() {
 	switch chain {
                 case "cosmos":
                         cosmos.Main(listenPort)
-                case "terra":
-                        exporter.Go(chain, listenPort)
+//                case "terra","emoney":
+//                        exporter.Go(chain, listenPort)
                 case "iris":
                         iris.Main(listenPort)
                 case "kava":
-                        kava.Main(listenPort)
+//                        kava.Main(listenPort)
                 case "iov":
                         iov.Main(listenPort)
-                case "emoney":
-                        emoney.Main(listenPort)
 		case "band":
                         band.Main(listenPort)
+		default:
+			exporter.Go(chain, listenPort)
 
         }
 }

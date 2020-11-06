@@ -7,6 +7,8 @@ import (
 
         sdk "github.com/cosmos/cosmos-sdk/types"
         terra "github.com/terra-project/core/types"
+	kava "github.com/Kava-Labs/kava/app"
+	emoney "github.com/e-money/em-ledger/types"
 
         "github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -46,6 +48,12 @@ func setConfig(chain string) {
 		        config.SetBech32PrefixForAccount(terra.Bech32PrefixAccAddr, terra.Bech32PrefixAccPub)
 		        config.SetBech32PrefixForValidator(terra.Bech32PrefixValAddr, terra.Bech32PrefixValPub)
 		        config.SetBech32PrefixForConsensusNode(terra.Bech32PrefixConsAddr, terra.Bech32PrefixConsPub)
+		case "kava":
+			kava.SetBech32AddressPrefixes(config)
+			kava.SetBip44CoinType(config)
+		case "emoney":
+			emoney.ConfigureSDK()
+
 	}
 
 	config.Seal()

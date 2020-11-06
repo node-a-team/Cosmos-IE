@@ -35,6 +35,7 @@ func Start(chain string, log *zap.Logger) {
 	// denom gagues
 	count := 0
 	for i := 0; i < len(denomList)*3; i += 3 {
+
 		gaugesDenom[i] = utils.NewGauge("exporter_balances", denomList[count], "")
 		gaugesDenom[i+1] = utils.NewGauge("exporter_commission", denomList[count], "")
 		gaugesDenom[i+2] = utils.NewGauge("exporter_rewards", denomList[count], "")
@@ -74,33 +75,30 @@ func Start(chain string, log *zap.Logger) {
 
 				fmt.Println("")
 				log.Info("\t", zap.Bool("Success", true), zap.String("Block Height", fmt.Sprint(currentBlockHeight)))
-				restData := rest.GetData(currentBlockHeight, blockData, log)
+				restData := rest.GetData(chain, currentBlockHeight, blockData, denomList[0], log)
 
 				SetMetric(currentBlockHeight, restData, log)
 				metricData := GetMetric()
 
 				// balances, commission, rewards,
 				count := 0
-				for i := 0; i < len(denomList); i++ {
-
+				for i := 0; i < len(denomList)*3; i +=3 {
 					for _, value := range metricData.Validator.Account.Balances {
-						if value.Denom == denomList[i] {
-							gaugesDenom[count].Set(utils.StringToFloat64(value.Amount))
-							count++
+						if value.Denom == denomList[count] {
+							gaugesDenom[i].Set(utils.StringToFloat64(value.Amount))
 						}
 					}
 					for _, value := range metricData.Validator.Account.Commission {
-                                                if value.Denom == denomList[i] {
-							gaugesDenom[count].Set(utils.StringToFloat64(value.Amount))
-							count++
-                                                }
+                                                if value.Denom == denomList[count] {
+							gaugesDenom[i+1].Set(utils.StringToFloat64(value.Amount))
+						}
                                         }
 					for _, value := range metricData.Validator.Account.Rewards {
-                                                if value.Denom == denomList[i] {
-							gaugesDenom[count].Set(utils.StringToFloat64(value.Amount))
-							count++
-                                                }
+                                                if value.Denom == denomList[count] {
+							gaugesDenom[i+2].Set(utils.StringToFloat64(value.Amount))
+						}
                                         }
+					count++
 				}
 
 				gaugesValue := [...]float64{
@@ -131,6 +129,9 @@ func Start(chain string, log *zap.Logger) {
 					metricData.Validator.Commission.MaxChangeRate,
 					metricData.Validator.Commit.VoteType,
 					metricData.Validator.Commit.PrecommitStatus,
+
+					metricData.Network.Minting.Inflation,
+					metricData.Network.Minting.ActualInflation,
 				}
 
 				for i:=0; i < len(gaugesNamespaceList); i++ {
