@@ -1,6 +1,10 @@
+# ----------------------------------------------------
+# Currently, the software has not been updated. When using, modify it after fork.
+# ----------------------------------------------------
+
 # Cosmos-IE
 ![CreatePlan](https://img.shields.io/badge/release-v1.0.0-red)
-![CreatePlan](https://img.shields.io/badge/go-1.14%2B-blue)
+![CreatePlan](https://img.shields.io/badge/go-1.15%2B-blue)
 ![CreatePlan](https://img.shields.io/badge/license-Apache--2.0-green)  
 Integrated Exporter for CosmosSDK
 
