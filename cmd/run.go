@@ -6,13 +6,15 @@ import (
 
         "github.com/spf13/cobra"
 
-	cosmos "github.com/node-a-team/Cosmos-IE/chains/cosmos"
-        terra "github.com/node-a-team/Cosmos-IE/chains/terra"
-        iris "github.com/node-a-team/Cosmos-IE/chains/iris"
-        kava "github.com/node-a-team/Cosmos-IE/chains/kava"
-        iov "github.com/node-a-team/Cosmos-IE/chains/iov"
-        emoney "github.com/node-a-team/Cosmos-IE/chains/emoney"
-        band "github.com/node-a-team/Cosmos-IE/chains/bandprotocol"
+//	cosmos "github.com/node-a-team/Cosmos-IE/chains/cosmos"
+//        terra "github.com/node-a-team/Cosmos-IE/chains/terra"
+//        iris "github.com/node-a-team/Cosmos-IE/chains/iris"
+//        kava "github.com/node-a-team/Cosmos-IE/chains/kava"
+//        iov "github.com/node-a-team/Cosmos-IE/chains/iov"
+//        emoney "github.com/node-a-team/Cosmos-IE/chains/emoney"
+//        band "github.com/node-a-team/Cosmos-IE/chains/bandprotocol"
+
+	exporter "github.com/node-a-team/Cosmos-IE/exporter"
 
 )
 
@@ -28,6 +30,9 @@ var (
 
 	operAddr string= ""
 	consHexAddr string = ""
+
+	// for Terra
+	feeDenom string ="ukrw"
 )
 
 // versionCmd represents the version command
@@ -60,6 +65,9 @@ func init() {
 
 	runCmd.Flags().StringVarP(&operAddr, "oper-addr", "", "", "Operator address for Validator")
 	runCmd.Flags().StringVarP(&consHexAddr, "cons-addr", "", "", "Consensus hex address for Validator")
+
+	runCmd.Flags().StringVarP(&feeDenom, "oracle-fee-denom", "", "ukrw", "Denom type for Terra oracle fees")
+
 }
 
 func check_chain() {
@@ -87,20 +95,20 @@ func check_chain() {
 
 func run() {
 	switch chain {
-                case "cosmos":
-                        cosmos.Main(listenPort)
-                case "terra":
-                        terra.Main(listenPort)
-                case "iris":
-                        iris.Main(listenPort)
-                case "kava":
-                        kava.Main(listenPort)
-                case "iov":
-                        iov.Main(listenPort)
-                case "emoney":
-                        emoney.Main(listenPort)
-		case "band":
-                        band.Main(listenPort)
+//                case "cosmos":
+//                        cosmos.Main(listenPort)
+//                case "terra","emoney":
+//                        exporter.Go(chain, listenPort)
+//                case "iris":
+//                        iris.Main(listenPort)
+//                case "kava":
+//                        kava.Main(listenPort)
+//                case "iov":
+//                        iov.Main(listenPort)
+//		case "band":
+//                        band.Main(listenPort)
+		default:
+			exporter.Go(chain, listenPort)
 
         }
 }
