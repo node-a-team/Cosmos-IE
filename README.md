@@ -3,7 +3,7 @@
 # ----------------------------------------------------
 
 # Cosmos-IE
-![CreatePlan](https://img.shields.io/badge/release-v1.0.0-red)
+![CreatePlan](https://img.shields.io/badge/release-v3.0.2-red)
 ![CreatePlan](https://img.shields.io/badge/go-1.15%2B-blue)
 ![CreatePlan](https://img.shields.io/badge/license-Apache--2.0-green)  
 Integrated Exporter for CosmosSDK
@@ -12,16 +12,15 @@ Integrated Exporter for CosmosSDK
 This Prometheus exporter is for monitoring information which is not provided from Tendermint’s basic Prometheus exporter(localhost:26660)
 
 ## List of supported chains
-Cosmos, Terra, IRISnet, Kava, E-money, BandProtocol, IOV
-
-## Docs
-[Cosmos-IE(Integrated Exporter for CosmosSDK)](https://www.notion.so/wlsaud619/Cosmos-IE-Integrated-Exporter-for-CosmosSDK-1e9c6cf1bdb0483180829676b533565b)
+Cosmos(cosmoshub-4), IRISnet(irishub-1)
 
 ## Install
 ```bash
-mkdir Cosmos-IE && cd Cosmos-IE
+cd $HOME
+git clone https://github.com/node-a-team/Cosmos-IE.git
+cd $HOME/Cosmos-IE
 
-wget https://github.com/node-a-team/Cosmos-IE/releases/download/v1.1.0/Cosmos-IE.tar.gz  && sha256sum Cosmos-IE.tar.gz | fgrep 78911047f3fab4c862589f995d0790b99ad32ecd5a19125a6012e6b85b2b8378 && tar -xvf Cosmos-IE.tar.gz || echo "Bad Binary!"
+make insatll
 ```
 
 ## Service(ex: cosmos)
