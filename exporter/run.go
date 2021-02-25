@@ -6,6 +6,9 @@ import (
         "go.uber.org/zap"
 
         sdk "github.com/cosmos/cosmos-sdk/types"
+	iris "github.com/irisnet/irishub/address"
+
+
         terra "github.com/terra-project/core/types"
 //	kava "github.com/kava-labs/kava/app"
 	emoney "github.com/e-money/em-ledger/types"
@@ -42,17 +45,20 @@ func setConfig(chain string) {
 	config := sdk.GetConfig()
 
 	switch chain {
-		case "terra":
-		        config.SetCoinType(terra.CoinType)
-		        config.SetFullFundraiserPath(terra.FullFundraiserPath)
-		        config.SetBech32PrefixForAccount(terra.Bech32PrefixAccAddr, terra.Bech32PrefixAccPub)
-		        config.SetBech32PrefixForValidator(terra.Bech32PrefixValAddr, terra.Bech32PrefixValPub)
-		        config.SetBech32PrefixForConsensusNode(terra.Bech32PrefixConsAddr, terra.Bech32PrefixConsPub)
+	case "iris":
+		iris.ConfigureBech32Prefix()
+
+	case "terra":
+	        config.SetCoinType(terra.CoinType)
+	        config.SetFullFundraiserPath(terra.FullFundraiserPath)
+	        config.SetBech32PrefixForAccount(terra.Bech32PrefixAccAddr, terra.Bech32PrefixAccPub)
+	        config.SetBech32PrefixForValidator(terra.Bech32PrefixValAddr, terra.Bech32PrefixValPub)
+	        config.SetBech32PrefixForConsensusNode(terra.Bech32PrefixConsAddr, terra.Bech32PrefixConsPub)
 //		case "kava":
 //			kava.SetBech32AddressPrefixes(config)
 //			kava.SetBip44CoinType(config)
-		case "emoney":
-			emoney.ConfigureSDK()
+	case "emoney":
+		emoney.ConfigureSDK()
 
 	}
 
