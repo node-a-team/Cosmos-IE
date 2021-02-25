@@ -9,10 +9,11 @@ import (
 	core "github.com/terra-project/core/types"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/node-a-team/Cosmos-IE/chains/terra/exporter"
+	"github.com/node-a-team/Cosmos-IE/exporter"
 )
 
-var ()
+var (
+)
 
 func Main(port string) {
 
