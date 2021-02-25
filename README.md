@@ -1,7 +1,3 @@
-# ----------------------------------------------------
-# Currently, the software has not been updated. When using, modify it after fork.
-# ----------------------------------------------------
-
 # Cosmos-IE
 ![CreatePlan](https://img.shields.io/badge/release-v3.0.2-red)
 ![CreatePlan](https://img.shields.io/badge/go-1.15%2B-blue)
@@ -20,7 +16,10 @@ cd $HOME
 git clone https://github.com/node-a-team/Cosmos-IE.git
 cd $HOME/Cosmos-IE
 
-make insatll
+go build
+
+./Cosmos-IE version
+## Cosmos-IE v3.0.2
 ```
 
 ## Service(ex: cosmos)
