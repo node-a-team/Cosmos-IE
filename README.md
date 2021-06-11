@@ -23,6 +23,7 @@ go build
 ```
 
 ## Service(ex: cosmos)
+- **--chain** _string_: Chain name of the monitoring node(cosmos | iris | band)
 ```bash
 ## Create a systemd service
 sudo tee /etc/systemd/system/Cosmos-IE.service > /dev/null <<EOF
