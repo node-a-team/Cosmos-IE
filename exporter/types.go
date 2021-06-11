@@ -36,6 +36,8 @@ var (
 	gaugesNamespaceList_Terra = [...]string{"oracleMiss",
 					"oracleFeederBalance",
 	}
+	gaugesNamespaceList_Band = [...]string{"oracleActive",
+        }
 
         metricData metric
 )
@@ -107,10 +109,13 @@ type metric struct {
                         PrecommitStatus         float64
                 }
 
-                // for Terra
+                // for Terra & Band
                 Oracle struct {
+			// Terra
                         Miss             float64
                         FeederBalance    float64
+			// Band
+			Active		 float64
                 }
 
         }
@@ -123,11 +128,12 @@ func getDenomList(chain string) []string {
 	// Add a staking denom to index 0
 	switch chain{
 	case "cosmos":
-//		dList = []string{"uatom"}
 		dList = []string{"uatom"}
 	case "iris":
 		dList = []string{"uiris"}
 //		dList = []string{"ubif"}
+	case "band":
+                dList = []string{"uband"}
 	case "terra":
 		dList = []string{"uluna",
 				"ukrw", "usdr", "uusd", "umnt"}

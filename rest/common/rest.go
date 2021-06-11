@@ -7,6 +7,7 @@ import (
 
 	utils "github.com/node-a-team/Cosmos-IE/utils"
 	terra "github.com/node-a-team/Cosmos-IE/rest/chains/terra"
+	band "github.com/node-a-team/Cosmos-IE/rest/chains/band"
 )
 
 var (
@@ -31,7 +32,8 @@ type RESTData struct {
 	Commission	[]Coin
 	Inflation	float64
 
-	Oracle		terra.Oracle
+	Oracle_terra	terra.Oracle
+	Oracle_band	float64
 	Gov		govInfo
 }
 
@@ -55,7 +57,15 @@ func GetData(chain string, blockHeight int64, blockData Blocks, denom string, lo
 
 	rd.Validatorsets = getValidatorsets(blockHeight, log)
 	rd.Validator = getValidators(log)
-	rd.Delegations = getDelegations(log)
+	/* Block synchronization problem occurs
+        when using "/cosmos/staking/v1beta1/validators/{validator_addr}/delegations" in rest-server
+        after gaiad v4.2.0
+        
+        if chain != "cosmos" {
+                rd.Delegations = getDelegations(log)
+        }
+	*/
+
 	rd.Balances = getBalances(AccAddr, log)
 	rd.Rewards = getRewards(log)
 	rd.Commission = getCommission(log)
@@ -65,22 +75,29 @@ func GetData(chain string, blockHeight int64, blockData Blocks, denom string, lo
         rd.Commit = getCommit(blockData, consHexAddr)
 //        rd.Commit = getCommit(blockData)
 
-
 	if chain != "emoney" {
 		rd.Gov = getGovInfo(log)
-	} else if chain == "terra" {
-		rd.Oracle = terra.GetOracle(Addr, OperAddr,
+	}
+
+	if chain == "band" {
+		rd.Oracle_band = band.CheckOracleActive(Addr, OperAddr, log)
+
+	}
+/*
+	if chain == "terra" {
+		rd.Oracle_terra = terra.GetOracle(Addr, OperAddr,
 			terra.Oracle{Feeder: terra.Feeder{Balance: terra.Balance{Denom: terra.FeeDenom }} },
 			log,
 		)
-		for _, v := range getBalances(rd.Oracle.Feeder.Address, log) {
+		for _, v := range getBalances(rd.Oracle_terra.Feeder.Address, log) {
 			if v.Denom == terra.FeeDenom {
-				rd.Oracle.Feeder.Balance.Denom = v.Denom
-				rd.Oracle.Feeder.Balance.Amount = v.Amount
+				rd.Oracle_terra.Feeder.Balance.Denom = v.Denom
+				rd.Oracle_terra.Feeder.Balance.Amount = v.Amount
 			}
 		}
-	}
 
+	}
+*/
 
 
 

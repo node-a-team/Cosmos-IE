@@ -14,7 +14,7 @@ func SetMetric(currentBlock int64, restData *rest.RESTData, log *zap.Logger) {
 	consPubKey := restData.Validator.Consensus_pubkey.Key
 	consAddr := restData.Validatorsets[consPubKey][0]
 
-	//// network
+	/* network */
 	metricData.Network.ChainID = restData.Commit.ChainId
         metricData.Network.BlockHeight = currentBlock
 
@@ -23,54 +23,56 @@ func SetMetric(currentBlock int64, restData *rest.RESTData, log *zap.Logger) {
 	metricData.Network.Staking.TotalSupply = restData.StakingPool.Pool.Total_supply
 	metricData.Network.Staking.BondedRatio = metricData.Network.Staking.BondedTokens / metricData.Network.Staking.TotalSupply
 
-	// minting
+	//// minting
 	metricData.Network.Minting.Inflation = restData.Inflation
 	metricData.Network.Minting.ActualInflation = metricData.Network.Minting.Inflation / metricData.Network.Staking.BondedRatio
 
-	//gov
+	////gov
 	metricData.Network.Gov.TotalProposalCount = restData.Gov.TotalProposalCount
         metricData.Network.Gov.VotingProposalCount = restData.Gov.VotingProposalCount
 
 
-	//// validator
+	/* validator */
 	metricData.Validator.Moniker = restData.Validator.Description.Moniker
         metricData.Validator.VotingPower = utils.StringToFloat64(restData.Validatorsets[consPubKey][1])
 	metricData.Validator.MinSelfDelegation = utils.StringToFloat64(restData.Validator.MinSelfDelegation)
 	metricData.Validator.JailStatus = utils.BoolToFloat64(restData.Validator.Jailed)
 
-	// address
+	//// address
 	metricData.Validator.Address.Operator = operAddr
 	metricData.Validator.Address.Account = utils.GetAccAddrFromOperAddr(operAddr, log)
 	metricData.Validator.Address.ConsensusHex = utils.Bech32AddrToHexAddr(consAddr, log)
 
-	// proposer
+	//// proposer
 //	metricData.Validator.Proposer.Ranking = utils.StringToFloat64(restData.Validatorsets[consPubKey][3])
 //	metricData.Validator.Proposer.Status = restData.Commit.ValidatorProposingStatus
 
-	// delegation
+	//// delegation
 	metricData.Validator.Delegation.Shares = utils.StringToFloat64(restData.Validator.DelegatorShares)
 	metricData.Validator.Delegation.Ratio = metricData.Validator.Delegation.Shares / metricData.Network.Staking.BondedTokens
 	metricData.Validator.Delegation.DelegatorCount = restData.Delegations.DelegationCount
 	metricData.Validator.Delegation.Self = restData.Delegations.SelfDelegation
 
-	// commission
+	//// commission
 	metricData.Validator.Commission.Rate = utils.StringToFloat64(restData.Validator.Commission.Commission_rates.Rate)
 	metricData.Validator.Commission.MaxRate = utils.StringToFloat64(restData.Validator.Commission.Commission_rates.Max_rate)
 	metricData.Validator.Commission.MaxChangeRate = utils.StringToFloat64(restData.Validator.Commission.Commission_rates.Max_change_rate)
 
-	// account
+	//// account
 	metricData.Validator.Account.Balances = restData.Balances
 	metricData.Validator.Account.Commission = restData.Commission
 	metricData.Validator.Account.Rewards = restData.Rewards
 
-	// commit
+	//// commit
 //	metricData.Validator.Commit.VoteType = restData.Commit.VoteType
         metricData.Validator.Commit.PrecommitStatus = restData.Commit.ValidatorPrecommitStatus
 
-	// oracle
-	metricData.Validator.Oracle.Miss = restData.Oracle.Miss
-	//for Terra
-	metricData.Validator.Oracle.FeederBalance = utils.StringToFloat64(restData.Oracle.Feeder.Balance.Amount)
+	//// oracle
+	// Terra
+	metricData.Validator.Oracle.Miss = restData.Oracle_terra.Miss
+	metricData.Validator.Oracle.FeederBalance = utils.StringToFloat64(restData.Oracle_terra.Feeder.Balance.Amount)
+	// Band
+	metricData.Validator.Oracle.Active = restData.Oracle_band
 
 }
 

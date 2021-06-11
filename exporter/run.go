@@ -8,7 +8,6 @@ import (
         sdk "github.com/cosmos/cosmos-sdk/types"
 	iris "github.com/irisnet/irishub/address"
 
-
         terra "github.com/terra-project/core/types"
 //	kava "github.com/kava-labs/kava/app"
 	emoney "github.com/e-money/em-ledger/types"
@@ -47,6 +46,20 @@ func setConfig(chain string) {
 	switch chain {
 	case "iris":
 		iris.ConfigureBech32Prefix()
+	case "band":
+		bech32MainPrefix := "band"
+		var bip44CoinType uint32 = 494
+
+		accountPrefix := bech32MainPrefix
+		validatorPrefix := bech32MainPrefix + sdk.PrefixValidator + sdk.PrefixOperator
+		consensusPrefix := bech32MainPrefix + sdk.PrefixValidator + sdk.PrefixConsensus
+
+		config.SetBech32PrefixForAccount(accountPrefix, accountPrefix+sdk.PrefixPublic)
+		config.SetBech32PrefixForValidator(validatorPrefix, validatorPrefix+sdk.PrefixPublic)
+		config.SetBech32PrefixForConsensusNode(consensusPrefix, consensusPrefix+sdk.PrefixPublic)
+		config.SetCoinType(bip44CoinType)
+
+//		fmt.Println(accountPrefix, validatorPrefix, consensusPrefix)
 
 	case "terra":
 	        config.SetCoinType(terra.CoinType)

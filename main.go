@@ -21,7 +21,8 @@ import (
 
 var (
 //        chainList = []string{"cosmos", "terra", "iris", "kava", "iov", "emoney", "band"}
-        chainList = []string{"cosmos", "iris"}
+	// Chains with stargate upgrade applied
+	chainList = []string{"cosmos", "iris", "band"}
 )
 
 
