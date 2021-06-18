@@ -184,7 +184,6 @@ func addGauges(chain string, metricData *metric, log *zap.Logger) {
 		} else {
 			gaugesValue := [...]float64{
 				metricData.Validator.Oracle.Miss,
-				metricData.Validator.Oracle.FeederBalance,
 		        }
 			for i:=0; i < len(gaugesNamespaceList_Terra); i++ {
 		                additionalGauges[i].Set(gaugesValue[i])

@@ -34,7 +34,6 @@ var (
                                 }
 
 	gaugesNamespaceList_Terra = [...]string{"oracleMiss",
-					"oracleFeederBalance",
 	}
 	gaugesNamespaceList_Band = [...]string{"oracleActive",
         }
@@ -113,7 +112,6 @@ type metric struct {
                 Oracle struct {
 			// Terra
                         Miss             float64
-                        FeederBalance    float64
 			// Band
 			Active		 float64
                 }
@@ -136,7 +134,7 @@ func getDenomList(chain string) []string {
                 dList = []string{"uband"}
 	case "terra":
 		dList = []string{"uluna",
-				"ukrw", "usdr", "uusd", "umnt"}
+				"uaud", "ucad", "uchf", "ucny", "udkk", "ueur", "ugbp", "uhkd", "uinr", "ujpy", "ukrw", "umnt", "unok", "usdr", "usek", "usgd", "uthb", "uusd"}
 	case "kava":
 		dList = []string{"ukava"}
 	case "emoney":

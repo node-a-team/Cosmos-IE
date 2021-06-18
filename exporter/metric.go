@@ -69,8 +69,7 @@ func SetMetric(currentBlock int64, restData *rest.RESTData, log *zap.Logger) {
 
 	//// oracle
 	// Terra
-	metricData.Validator.Oracle.Miss = restData.Oracle_terra.Miss
-	metricData.Validator.Oracle.FeederBalance = utils.StringToFloat64(restData.Oracle_terra.Feeder.Balance.Amount)
+	metricData.Validator.Oracle.Miss = restData.Oracle_terra
 	// Band
 	metricData.Validator.Oracle.Active = restData.Oracle_band
 

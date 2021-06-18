@@ -14,7 +14,6 @@ var (
         Addr string
 	OperAddr string
 	AccAddr string
-	ConsHexAddr string
 )
 
 
@@ -32,7 +31,7 @@ type RESTData struct {
 	Commission	[]Coin
 	Inflation	float64
 
-	Oracle_terra	terra.Oracle
+	Oracle_terra	float64
 	Oracle_band	float64
 	Gov		govInfo
 }
@@ -75,14 +74,8 @@ func GetData(chain string, blockHeight int64, blockData Blocks, denom string, lo
         rd.Commit = getCommit(blockData, consHexAddr)
 //        rd.Commit = getCommit(blockData)
 
-	if chain != "emoney" {
-		rd.Gov = getGovInfo(log)
-	}
-
-	if chain == "band" {
-		rd.Oracle_band = band.CheckOracleActive(Addr, OperAddr, log)
-
-	}
+	if chain == "band" { rd.Oracle_band = band.CheckOracleActive(Addr, OperAddr, log) }
+	if chain == "terra" { rd.Oracle_terra = terra.GetOracleMiss(Addr, OperAddr, log) }
 /*
 	if chain == "terra" {
 		rd.Oracle_terra = terra.GetOracle(Addr, OperAddr,

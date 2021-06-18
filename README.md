@@ -8,7 +8,7 @@ Integrated Exporter for CosmosSDK
 This Prometheus exporter is for monitoring information which is not provided from Tendermint’s basic Prometheus exporter(localhost:26660)
 
 ## List of supported chains
-Cosmos(cosmoshub-4), IRISnet(irishub-1), BandProtocol-testnet(band-laozi-testnet1)
+Cosmos(cosmoshub-4), IRISnet(irishub-1), BandProtocol-testnet(band-laozi-testnet1), Terra(bombay)
 
 ## Install
 ```bash
@@ -23,7 +23,7 @@ go build
 ```
 
 ## Service(ex: cosmos)
-- **--chain** _string_: Chain name of the monitoring node(cosmos | iris | band)
+- **--chain** _string_: Chain name of the monitoring node(cosmos | iris | band | terra)
 ```bash
 ## Create a systemd service
 sudo tee /etc/systemd/system/Cosmos-IE.service > /dev/null <<EOF
@@ -51,5 +51,5 @@ sudo systemctl enable Cosmos-IE
 sudo systemctl start Cosmos-IE
 
 ## log
-journalctl -f | grep Cosmos-IE
+journalctl -f -u Cosmos-IE.service
 ```

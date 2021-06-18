@@ -24,22 +24,17 @@ var (
 
 	// command로 안 받을 경우 defult 값 지정
 	chain string = ""
-        rpcAddr string = "localhost:26657"
         restAddr string = "localhost:1317"
 	listenPort string = "26661"
 
 	operAddr string= ""
-	consHexAddr string = ""
-
-	// for Terra
-	feeDenom string ="ukrw"
 )
 
 // versionCmd represents the version command
 var runCmd = &cobra.Command{
         Use:   "run",
         Short: "Validator Operator Address",
-        Long: `Be sure to enter either Validator Operator Address or Consensus Hex Address
+        Long: `Be sure to enter either Validator Operator Address
 ex#1_Local REST Server) Cosmos-IE run --chain cosmos --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys
 ex#2_Remote REST Server) Cosmos-IE run --chain cosmos --oper-addr cosmosvaloper14l0fp639yudfl46zauvv8rkzjgd4u0zk2aseys --rest-server 192.168.0.10:1317 
 `,
@@ -56,18 +51,9 @@ func init() {
 	runCmd.Flags().StringVarP(&chain, "chain", "c", "", "Chain name of the monitoring node")
         runCmd.MarkFlagRequired("chain")
 
-
-	// 입력받은 값을 RpcAddr 변수에 저장, 입력 받지 않을 경우 default(tcp://localhost:26657)
-        runCmd.Flags().StringVarP(&rpcAddr, "rpc-server", "", "localhost:26657", "<host>:<port> to Tendermint RPC interface for the selected chain")
 	runCmd.Flags().StringVarP(&restAddr, "rest-server", "", "localhost:1317", "<host>:<port> to Rest-Server(LCD-Server) interface for the selected chain")
-
 	runCmd.Flags().StringVarP(&listenPort, "port", "p", "26661", "Port to listen for Prometheus collector connections")
-
 	runCmd.Flags().StringVarP(&operAddr, "oper-addr", "", "", "Operator address for Validator")
-	runCmd.Flags().StringVarP(&consHexAddr, "cons-addr", "", "", "Consensus hex address for Validator")
-
-	runCmd.Flags().StringVarP(&feeDenom, "oracle-fee-denom", "", "ukrw", "Denom type for Terra oracle fees")
-
 }
 
 func check_chain() {
@@ -84,12 +70,8 @@ func check_chain() {
 	}
 
 
-	if (operAddr == "" && consHexAddr == "") || (operAddr != "" && consHexAddr != "") {
-		log.Fatal("[Error] Enter only one of --oper-addr or --cons-addr")
-	} else if chain == "iov" && consHexAddr == "" {
-		log.Fatal("[Error] In case of IOV chain, input only --cons-addr")
-	} else if chain != "iov" && consHexAddr != "" {
-		log.Fatal("[Error] If not an IOV chain, input only --oper-addr")
+	if (operAddr == "") {
+		log.Fatal("[Error] --oper-addr was not entered.")
 	}
 }
 
