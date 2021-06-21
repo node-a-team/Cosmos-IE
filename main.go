@@ -20,11 +20,10 @@ import (
 )
 
 var (
-//        chainList = []string{"cosmos", "terra", "iris", "kava", "iov", "emoney", "band"}
+	//        chainList = []string{"cosmos", "terra", "iris", "kava", "iov", "emoney", "band"}
 	// Chains with stargate upgrade applied
-	chainList = []string{"cosmos", "iris", "band"}
+	chainList = []string{"cosmos", "iris", "band", "rizon"}
 )
-
 
 func main() {
 	cmd.Execute(chainList)
