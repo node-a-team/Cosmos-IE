@@ -19,7 +19,7 @@ cd $HOME/Cosmos-IE
 go build
 
 ./Cosmos-IE version
-## Cosmos-IE v3.0.3
+## Cosmos-IE v3.0.4
 ```
 
 ## Service(ex: cosmos)
