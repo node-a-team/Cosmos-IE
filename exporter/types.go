@@ -140,6 +140,8 @@ func getDenomList(chain string) []string {
 	case "emoney":
 		dList = []string{"ungm",
 				"eeur", "echf", "edkk", "enok", "esek"}
+	case "starname":
+		dList = []string{"uiov"}
 	}
 
 	return  dList

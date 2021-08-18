@@ -2,7 +2,7 @@ package exporter
 
 import (
 	"fmt"
-//	"time"
+	"time"
 	"go.uber.org/zap"
 	"strconv"
 
@@ -57,17 +57,15 @@ func Start(chain string, log *zap.Logger) {
 
 	for {
 		func() {
-/*			
 			defer func() {
 
 				if r := recover(); r != nil {
 					//Error Log
 				}
 
-				time.Sleep(500 * time.Millisecond)
+				time.Sleep(1000 * time.Millisecond)
 
 			}()
-*/
 
 			blockData := rest.GetBlocks(log)
                         currentBlockHeight, _:= strconv.ParseInt(blockData.Block.Header.Height, 10, 64)

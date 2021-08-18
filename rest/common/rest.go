@@ -4,6 +4,7 @@ import (
 //	"fmt"
 	"go.uber.org/zap"
 	"os/exec"
+	// "log"
 
 	utils "github.com/node-a-team/Cosmos-IE/utils"
 	terra "github.com/node-a-team/Cosmos-IE/rest/chains/terra"
@@ -69,6 +70,7 @@ func GetData(chain string, blockHeight int64, blockData Blocks, denom string, lo
 	rd.Rewards = getRewards(log)
 	rd.Commission = getCommission(log)
 	rd.Inflation = getInflation(chain, denom, log)
+	rd.Gov = getGovInfo(log)
 
 	consHexAddr := utils.Bech32AddrToHexAddr(rd.Validatorsets[rd.Validator.Consensus_pubkey.Key][0], log)
         rd.Commit = getCommit(blockData, consHexAddr)
@@ -106,6 +108,7 @@ func GetData(chain string, blockHeight int64, blockData Blocks, denom string, lo
 
 func runRESTCommand(str string) ([]uint8, error) {
         cmd := "curl -s -XGET " +Addr +str +" -H \"accept:application/json\""
+		// log.Println("runRestCommand: ", cmd);
         out, err := exec.Command("/bin/bash", "-c", cmd).Output()
 
         return out, err

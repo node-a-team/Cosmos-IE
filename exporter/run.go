@@ -72,7 +72,19 @@ func setConfig(chain string) {
 //			kava.SetBip44CoinType(config)
 	case "emoney":
 		emoney.ConfigureSDK()
-
+	case "starname":
+		Bech32Prefix := "star"
+		Bech32PrefixAccAddr := Bech32Prefix
+		Bech32PrefixAccPub := Bech32Prefix + sdk.PrefixPublic
+		Bech32PrefixValAddr := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixOperator
+		Bech32PrefixValPub := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixOperator + sdk.PrefixPublic
+		Bech32PrefixConsAddr := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixConsensus
+		Bech32PrefixConsPub := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixConsensus + sdk.PrefixPublic
+		config := sdk.GetConfig()
+		config.SetBech32PrefixForAccount(Bech32PrefixAccAddr, Bech32PrefixAccPub)
+		config.SetBech32PrefixForValidator(Bech32PrefixValAddr, Bech32PrefixValPub)
+		config.SetBech32PrefixForConsensusNode(Bech32PrefixConsAddr, Bech32PrefixConsPub)
+	
 	}
 
 	config.Seal()
