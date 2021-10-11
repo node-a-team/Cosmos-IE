@@ -1,5 +1,5 @@
 # Cosmos-IE
-![CreatePlan](https://img.shields.io/badge/release-v3.0.3-red)
+![CreatePlan](https://img.shields.io/badge/release-v3.0.6-red)
 ![CreatePlan](https://img.shields.io/badge/go-1.15%2B-blue)
 ![CreatePlan](https://img.shields.io/badge/license-Apache--2.0-green)  
 Integrated Exporter for CosmosSDK
@@ -8,7 +8,7 @@ Integrated Exporter for CosmosSDK
 This Prometheus exporter is for monitoring information which is not provided from Tendermint’s basic Prometheus exporter(localhost:26660)
 
 ## List of supported chains
-Cosmos(cosmoshub-4), IRISnet(irishub-1), BandProtocol-testnet(band-laozi-testnet1), Terra(bombay), Starname(iov-mainnet-ibc)
+Cosmos(cosmoshub-4), IRISnet(irishub-1), BandProtocol-testnet(band-laozi-testnet1), Terra(bombay), Starname(iov-mainnet-ibc), Certik(shentu-2)
 
 ## Install
 ```bash
@@ -19,7 +19,7 @@ cd $HOME/Cosmos-IE
 go build
 
 ./Cosmos-IE version
-## Cosmos-IE v3.0.5
+## Cosmos-IE v3.0.6
 ```
 
 ## Service(ex: cosmos)
