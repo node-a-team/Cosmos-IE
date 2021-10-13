@@ -1,5 +1,5 @@
 # Cosmos-IE
-![CreatePlan](https://img.shields.io/badge/release-v3.0.6-red)
+![CreatePlan](https://img.shields.io/badge/release-v3.0.7-red)
 ![CreatePlan](https://img.shields.io/badge/go-1.15%2B-blue)
 ![CreatePlan](https://img.shields.io/badge/license-Apache--2.0-green)  
 Integrated Exporter for CosmosSDK
@@ -19,7 +19,7 @@ cd $HOME/Cosmos-IE
 go build
 
 ./Cosmos-IE version
-## Cosmos-IE v3.0.6
+## Cosmos-IE v3.0.7
 ```
 
 ## Service(ex: cosmos)
