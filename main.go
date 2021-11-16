@@ -20,9 +20,9 @@ import (
 )
 
 var (
-	//        chainList = []string{"cosmos", "terra", "iris", "kava", "iov", "emoney", "band", "certik"}
+	//        chainList = []string{"cosmos", "terra", "iris", "kava", "iov", "emoney", "band", "certik", "rizon"}
 	// Chains with stargate upgrade applied
-	chainList = []string{"cosmos", "iris", "band", "terra", "starname", "certik", "terra"}
+	chainList = []string{"cosmos", "iris", "band", "terra", "starname", "certik", "terra", "rizon"}
 )
 
 func main() {

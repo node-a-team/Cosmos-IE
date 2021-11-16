@@ -91,6 +91,23 @@ func setConfig(chain string) {
 		config.SetBech32PrefixForValidator(common.Bech32PrefixValAddr, common.Bech32PrefixValPub)
 		config.SetBech32PrefixForConsensusNode(common.Bech32PrefixConsAddr, common.Bech32PrefixConsPub)
 		config.Seal()
+	case "rizon":
+		Bech32MainPrefix := "rizon"
+		PrefixValidator := "val"
+		PrefixConsensus := "cons"
+		PrefixPublic := "pub"
+		PrefixOperator := "oper"
+		Bech32PrefixAccAddr := Bech32MainPrefix
+		Bech32PrefixAccPub := Bech32MainPrefix + PrefixPublic
+		Bech32PrefixValAddr := Bech32MainPrefix + PrefixValidator + PrefixOperator
+		Bech32PrefixValPub := Bech32MainPrefix + PrefixValidator + PrefixOperator + PrefixPublic
+		Bech32PrefixConsAddr := Bech32MainPrefix + PrefixValidator + PrefixConsensus
+		Bech32PrefixConsPub := Bech32MainPrefix + PrefixValidator + PrefixConsensus + PrefixPublic
+			config := sdk.GetConfig()
+			config.SetBech32PrefixForAccount(Bech32PrefixAccAddr, Bech32PrefixAccPub)
+			config.SetBech32PrefixForValidator(Bech32PrefixValAddr, Bech32PrefixValPub)
+			config.SetBech32PrefixForConsensusNode(Bech32PrefixConsAddr, Bech32PrefixConsPub)
+			config.Seal()
 	}
 
 	config.Seal()
