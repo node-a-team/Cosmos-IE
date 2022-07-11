@@ -45,8 +45,10 @@ func setConfig(chain string) {
 	config := sdk.GetConfig()
 
 	switch chain {
+	
 	case "iris":
 		iris.ConfigureBech32Prefix()
+	
 	case "band":
 		bech32MainPrefix := "band"
 		var bip44CoinType uint32 = 494
@@ -68,29 +70,30 @@ func setConfig(chain string) {
 		config.SetBech32PrefixForAccount(terra.Bech32PrefixAccAddr, terra.Bech32PrefixAccPub)
 		config.SetBech32PrefixForValidator(terra.Bech32PrefixValAddr, terra.Bech32PrefixValPub)
 		config.SetBech32PrefixForConsensusNode(terra.Bech32PrefixConsAddr, terra.Bech32PrefixConsPub)
-		//		case "kava":
-		//			kava.SetBech32AddressPrefixes(config)
-		//			kava.SetBip44CoinType(config)
+	
 	case "emoney":
 		emoney.ConfigureSDK()
-	case "starname":
-		Bech32Prefix := "star"
-		Bech32PrefixAccAddr := Bech32Prefix
-		Bech32PrefixAccPub := Bech32Prefix + sdk.PrefixPublic
-		Bech32PrefixValAddr := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixOperator
-		Bech32PrefixValPub := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixOperator + sdk.PrefixPublic
-		Bech32PrefixConsAddr := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixConsensus
-		Bech32PrefixConsPub := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixConsensus + sdk.PrefixPublic
-		config := sdk.GetConfig()
-		config.SetBech32PrefixForAccount(Bech32PrefixAccAddr, Bech32PrefixAccPub)
-		config.SetBech32PrefixForValidator(Bech32PrefixValAddr, Bech32PrefixValPub)
-		config.SetBech32PrefixForConsensusNode(Bech32PrefixConsAddr, Bech32PrefixConsPub)
+	
+	//case "starname":
+	//	Bech32Prefix := "star"
+	//	Bech32PrefixAccAddr := Bech32Prefix
+	//	Bech32PrefixAccPub := Bech32Prefix + sdk.PrefixPublic
+	//	Bech32PrefixValAddr := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixOperator
+	//	Bech32PrefixValPub := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixOperator + sdk.PrefixPublic
+	//	Bech32PrefixConsAddr := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixConsensus
+	//	Bech32PrefixConsPub := Bech32Prefix + sdk.PrefixValidator + sdk.PrefixConsensus + sdk.PrefixPublic
+	//	config := sdk.GetConfig()
+	//	config.SetBech32PrefixForAccount(Bech32PrefixAccAddr, Bech32PrefixAccPub)
+	//	config.SetBech32PrefixForValidator(Bech32PrefixValAddr, Bech32PrefixValPub)
+	//	config.SetBech32PrefixForConsensusNode(Bech32PrefixConsAddr, Bech32PrefixConsPub)
+	
 	case "certik":
 		config := sdk.GetConfig()
 		config.SetBech32PrefixForAccount(common.Bech32PrefixAccAddr, common.Bech32PrefixAccPub)
 		config.SetBech32PrefixForValidator(common.Bech32PrefixValAddr, common.Bech32PrefixValPub)
 		config.SetBech32PrefixForConsensusNode(common.Bech32PrefixConsAddr, common.Bech32PrefixConsPub)
 		config.Seal()
+	
 	case "rizon":
 		Bech32MainPrefix := "rizon"
 		PrefixValidator := "val"
@@ -108,6 +111,18 @@ func setConfig(chain string) {
 			config.SetBech32PrefixForValidator(Bech32PrefixValAddr, Bech32PrefixValPub)
 			config.SetBech32PrefixForConsensusNode(Bech32PrefixConsAddr, Bech32PrefixConsPub)
 			config.Seal()
+		
+	case "kava":
+		Bech32MainPrefix := "kava"
+		Bech32PrefixAccPub := Bech32MainPrefix + "pub"
+		Bech32PrefixValAddr := Bech32MainPrefix + "val" + "oper"
+		Bech32PrefixValPub := Bech32MainPrefix + "val" + "oper" + "pub"
+		Bech32PrefixConsAddr := Bech32MainPrefix + "val" + "cons"
+		Bech32PrefixConsPub := Bech32MainPrefix + "val" + "cons" + "pub"
+		config.SetBech32PrefixForAccount(Bech32MainPrefix, Bech32PrefixAccPub)
+		config.SetBech32PrefixForValidator(Bech32PrefixValAddr, Bech32PrefixValPub)
+		config.SetBech32PrefixForConsensusNode(Bech32PrefixConsAddr, Bech32PrefixConsPub)
+		config.Seal()
 	}
 
 	config.Seal()
