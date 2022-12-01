@@ -123,6 +123,21 @@ func setConfig(chain string) {
 		config.SetBech32PrefixForValidator(Bech32PrefixValAddr, Bech32PrefixValPub)
 		config.SetBech32PrefixForConsensusNode(Bech32PrefixConsAddr, Bech32PrefixConsPub)
 		config.Seal()
+
+	case "tgrade":
+		Bech32Prefix  := "tgrade"
+		Bech32PrefixAccAddr := Bech32Prefix
+		Bech32PrefixAccPub := Bech32Prefix + sdk.PrefixPublic
+		Bech32PrefixValAddr := Bech32Prefix
+		Bech32PrefixValPub := Bech32Prefix + sdk.PrefixPublic
+		Bech32PrefixConsAddr := Bech32Prefix
+		Bech32PrefixConsPub := Bech32Prefix + sdk.PrefixPublic
+		config := sdk.GetConfig()
+		config.SetBech32PrefixForAccount(Bech32PrefixAccAddr, Bech32PrefixAccPub)
+		config.SetBech32PrefixForValidator(Bech32PrefixValAddr, Bech32PrefixValPub)
+		config.SetBech32PrefixForConsensusNode(Bech32PrefixConsAddr, Bech32PrefixConsPub)
+	//	config.SetAddressVerifier(VerifyAddressLen())
+		config.Seal()
 	}
 
 	config.Seal()
