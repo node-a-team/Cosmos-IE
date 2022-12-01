@@ -13,38 +13,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package cmd
+package main
 
 import (
-	"fmt"
-
-	"github.com/spf13/cobra"
+	"github.com/node-a-team/Cosmos-IE/cmd"
 )
 
 var (
-	version string = "v3.0.8"
-
-	// versionCmd represents the version command
-	versionCmd = &cobra.Command{
-		Use:   "version",
-		Short: "Software version",
-		Long:  ``,
-		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Printf("Cosmos-IE %s\n", version)
-		},
-	}
+	//        chainList = []string{"cosmos", "terra", "iris", "kava", "iov", "emoney", "band", "certik", "rizon", "kava", "tgrade"}
+	// Chains with stargate upgrade applied
+	chainList = []string{"cosmos", "iris", "band", "terra", "starname", "certik", "terra", "rizon" , "kava", "tgrade"}
 )
 
-func init() {
-	rootCmd.AddCommand(versionCmd)
+func main() {
+	cmd.Execute(chainList)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// versionCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// versionCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
