@@ -25,7 +25,7 @@ var (
 	// command로 안 받을 경우 defult 값 지정
 	chain string = ""
         restAddr string = "localhost:1317"
-	listenPort string = "26661"
+	listenPort string = "26662"
 
 	operAddr string= ""
 )
@@ -52,7 +52,7 @@ func init() {
         runCmd.MarkFlagRequired("chain")
 
 	runCmd.Flags().StringVarP(&restAddr, "rest-server", "", "localhost:1317", "<host>:<port> to Rest-Server(LCD-Server) interface for the selected chain")
-	runCmd.Flags().StringVarP(&listenPort, "port", "p", "26661", "Port to listen for Prometheus collector connections")
+	runCmd.Flags().StringVarP(&listenPort, "port", "p", "26662", "Port to listen for Prometheus collector connections")
 	runCmd.Flags().StringVarP(&operAddr, "oper-addr", "", "", "Operator address for Validator")
 }
 
